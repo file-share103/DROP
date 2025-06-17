@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malicious Downloads Demo - Ayushman's- Cyber Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .fake-download-site {
+            border: 2px solid #dc3545;
+            border-radius: 10px;
+            margin: 2rem 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .fake-site-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .fake-download-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 1rem;
+            display: inline-block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fake-download-button:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .fake-download-button.malicious {
+            background: #dc3545;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        .download-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .file-analysis {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            color: #e9ecef;
+        }
+
+        .threat-indicator {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 0.2rem;
+        }
+
+        .threat-high {
+            background: #dc3545;
+            color: white;
+        }
+
+        .threat-medium {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .threat-low {
+            background: #28a745;
+            color: white;
+        }
+
+        .fake-ads {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .fake-ad {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .fake-ad:hover {
+            transform: scale(1.05);
+        }
+
+        .legitimate-download {
+            background: rgba(46, 160, 67, 0.1);
+            border: 1px solid #2ea043;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .security-scanner {
+            background: rgba(23, 162, 184, 0.1);
+            border: 1px solid #17a2b8;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .scan-result {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .scan-clean {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .scan-infected {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ayushman's- Cyber Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Download Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="demo-container">
+                <h1><i class="fas fa-download"></i> Malicious Downloads Demonstration</h1>
+
+                <div class="alert alert-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Educational Warning:</strong>
+                    This demonstrates how malicious downloads work. All downloads here are simulated and safe for educational purposes.
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">1</span>Understanding Malicious Downloads</h2>
+                    <p>Malicious downloads are one of the most common ways attackers distribute malware. They trick users into downloading and executing harmful software by disguising it as legitimate programs.</p>
+
+                    <div class="analysis-section">
+                        <h3>Common Distribution Methods:</h3>
+                        <ul>
+                            <li><strong>Fake Software:</strong> Malware disguised as popular applications</li>
+                            <li><strong>Infected Torrents:</strong> Pirated software containing malware</li>
+                            <li><strong>Malicious Ads:</strong> Advertisements that trigger downloads</li>
+                            <li><strong>Email Attachments:</strong> Infected files sent via email</li>
+                            <li><strong>Drive-by Downloads:</strong> Automatic downloads from compromised websites</li>
+                            <li><strong>Social Engineering:</strong> Convincing users to download "security updates"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">2</span>Fake Download Site Example</h2>
+                    <p>Below is a simulated malicious download site. Notice the tactics used to trick users:</p>
+
+                    <div class="fake-download-site">
+                        <div class="fake-site-header">
+                            <h3>🎉 FREE SOFTWARE DOWNLOADS 🎉</h3>
+                            <p>Download the latest versions of popular software for FREE!</p>
+                        </div>
+
+                        <div style="padding: 2rem;">
+                            <h4>Adobe Photoshop 2024 - FREE DOWNLOAD</h4>
+                            <p>⭐⭐⭐⭐⭐ (4.9/5 stars) - Downloaded 2,847,392 times</p>
+
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0;">
+                                <button class="fake-download-button" onclick="showDownloadWarning('fake')">
+                                    <i class="fas fa-download"></i> DOWNLOAD NOW
+                                </button>
+                                <button class="fake-download-button malicious" onclick="showDownloadWarning('malicious')">
+                                    <i class="fas fa-bolt"></i> FAST DOWNLOAD
+                                </button>
+                                <button class="fake-download-button" onclick="showDownloadWarning('fake')">
+                                    <i class="fas fa-rocket"></i> PREMIUM DOWNLOAD
+                                </button>
+                            </div>
+
+                            <div class="fake-ads">
+                                <div class="fake-ad" onclick="showDownloadWarning('ad')">
+                                    <h4>🔥 URGENT UPDATE</h4>
+                                    <p>Your Flash Player is outdated!</p>
+                                    <small>Click to update now</small>
+                                </div>
+                                <div class="fake-ad" onclick="showDownloadWarning('ad')">
+                                    <h4>🎁 YOU'VE WON!</h4>
+                                    <p>Claim your $1000 prize!</p>
+                                    <small>Download certificate</small>
+                                </div>
+                                <div class="fake-ad" onclick="showDownloadWarning('ad')">
+                                    <h4>⚠️ VIRUS DETECTED</h4>
+                                    <p>Scan your computer now!</p>
+                                    <small>Free antivirus download</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="download-warning" class="download-warning">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Malicious Download Detected!</h4>
+                        <p id="warning-message"></p>
+                        <div class="file-analysis">
+                            <strong>File Analysis:</strong><br>
+                            Filename: <span id="filename"></span><br>
+                            Size: <span id="filesize"></span><br>
+                            Type: <span id="filetype"></span><br>
+                            Threat Level: <span id="threat-level"></span>
+                        </div>
+                    </div>
+
+                    <div class="red-flags">
+                        <h4><i class="fas fa-flag"></i> Red Flags in This Example:</h4>
+                        <ul>
+                            <li><strong>Too good to be true:</strong> Expensive software offered for free</li>
+                            <li><strong>Multiple download buttons:</strong> Confusing interface with fake options</li>
+                            <li><strong>Fake statistics:</strong> Inflated download numbers and ratings</li>
+                            <li><strong>Urgent ads:</strong> Pressure tactics and scare tactics</li>
+                            <li><strong>Poor design:</strong> Unprofessional appearance and excessive ads</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">3</span>File Type Analysis</h2>
+                    <p>Understanding file types and their risks:</p>
+
+                    <div class="education-grid">
+                        <div class="education-card">
+                            <h3>High Risk Files</h3>
+                            <div class="threat-indicator threat-high">.exe</div>
+                            <div class="threat-indicator threat-high">.scr</div>
+                            <div class="threat-indicator threat-high">.bat</div>
+                            <div class="threat-indicator threat-high">.com</div>
+                            <div class="threat-indicator threat-high">.pif</div>
+                            <p>Executable files that can run code directly on your system.</p>
+                        </div>
+
+                        <div class="education-card">
+                            <h3>Medium Risk Files</h3>
+                            <div class="threat-indicator threat-medium">.zip</div>
+                            <div class="threat-indicator threat-medium">.rar</div>
+                            <div class="threat-indicator threat-medium">.doc</div>
+                            <div class="threat-indicator threat-medium">.pdf</div>
+                            <div class="threat-indicator threat-medium">.jar</div>
+                            <p>Can contain malicious content or executable files.</p>
+                        </div>
+
+                        <div class="education-card">
+                            <h3>Lower Risk Files</h3>
+                            <div class="threat-indicator threat-low">.txt</div>
+                            <div class="threat-indicator threat-low">.jpg</div>
+                            <div class="threat-indicator threat-low">.png</div>
+                            <div class="threat-indicator threat-low">.mp3</div>
+                            <div class="threat-indicator threat-low">.mp4</div>
+                            <p>Generally safer but can still be exploited in some cases.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">4</span>Safe Download Practices</h2>
+
+                    <div class="legitimate-download">
+                        <h4><i class="fas fa-check-circle"></i> Legitimate Download Example:</h4>
+                        <p><strong>Source:</strong> Official Mozilla Firefox website (mozilla.org)</p>
+                        <p><strong>URL:</strong> https://www.mozilla.org/en-US/firefox/new/</p>
+                        <p><strong>File:</strong> Firefox Installer.exe (verified signature)</p>
+                        <p><strong>Size:</strong> 54.7 MB (matches expected size)</p>
+                        <div style="margin-top: 1rem;">
+                            <button class="demo-btn" onclick="showScanResult('clean')">
+                                <i class="fas fa-shield-alt"></i> Verify Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="security-scanner">
+                        <h4><i class="fas fa-search"></i> Security Scanner Simulation</h4>
+                        <p>Always scan downloads with antivirus software:</p>
+                        <button class="demo-btn" onclick="simulateScan()">
+                            <i class="fas fa-virus"></i> Scan File
+                        </button>
+
+                        <div id="scan-clean" class="scan-result scan-clean">
+                            <strong>✅ Scan Complete - File is Clean</strong><br>
+                            No threats detected. File appears to be legitimate.
+                        </div>
+
+                        <div id="scan-infected" class="scan-result scan-infected">
+                            <strong>🚨 Threat Detected!</strong><br>
+                            Malware found: Trojan.Generic.Malware<br>
+                            Recommendation: Delete file immediately
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">5</span>Prevention Strategies</h2>
+
+                    <div class="prevention-tip">
+                        <h3><i class="fas fa-shield-alt"></i> Safe Download Guidelines:</h3>
+                        <ul>
+                            <li><strong>Official Sources Only:</strong> Download software from official websites</li>
+                            <li><strong>Verify URLs:</strong> Check for correct spelling and HTTPS</li>
+                            <li><strong>Read Reviews:</strong> Check legitimate review sites and forums</li>
+                            <li><strong>Scan Everything:</strong> Use updated antivirus software</li>
+                            <li><strong>Check File Sizes:</strong> Compare with expected sizes</li>
+                            <li><strong>Verify Signatures:</strong> Check digital signatures when available</li>
+                            <li><strong>Avoid Piracy:</strong> Pirated software often contains malware</li>
+                            <li><strong>Keep Software Updated:</strong> Use official update mechanisms</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">6</span>What to Do If Infected</h2>
+
+                    <div class="alert alert-danger">
+                        <h4>Incident Response Steps:</h4>
+                        <ol>
+                            <li><strong>Disconnect from Internet:</strong> Prevent data theft and further infection</li>
+                            <li><strong>Boot from Antivirus Rescue Disk:</strong> Scan outside the infected OS</li>
+                            <li><strong>Change All Passwords:</strong> From a clean device</li>
+                            <li><strong>Monitor Accounts:</strong> Check for unauthorized access</li>
+                            <li><strong>Restore from Backup:</strong> If available and clean</li>
+                            <li><strong>Report the Incident:</strong> To IT security team</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-graduation-cap"></i> Key Takeaways:</strong>
+                    <ul>
+                        <li>Only download software from official, trusted sources</li>
+                        <li>Be extremely suspicious of "free" versions of expensive software</li>
+                        <li>Always scan downloads with updated antivirus software</li>
+                        <li>Verify file signatures and checksums when possible</li>
+                        <li>Keep your operating system and security software updated</li>
+                        <li>When in doubt, don't download - research first</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="social-engineering-demo.html" class="demo-btn">← Previous: Social Engineering</a>
+                    <a href="index.html" class="demo-btn">Back to Main Lab</a>
+                    <a href="sql-injection-demo.html" class="demo-btn">Next: SQL Injection →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ayushman's- Cyber Education Lab. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showDownloadWarning(type) {
+            const warningDiv = document.getElementById('download-warning');
+            const messageSpan = document.getElementById('warning-message');
+            const filenameSpan = document.getElementById('filename');
+            const filesizeSpan = document.getElementById('filesize');
+            const filetypeSpan = document.getElementById('filetype');
+            const threatLevelSpan = document.getElementById('threat-level');
+
+            let message, filename, filesize, filetype, threatLevel;
+
+            switch(type) {
+                case 'fake':
+                    message = "This download button leads to malware disguised as legitimate software!";
+                    filename = "Adobe_Photoshop_2024_CRACK.exe";
+                    filesize = "847 KB (suspiciously small for Photoshop)";
+                    filetype = "Executable (.exe)";
+                    threatLevel = '<span class="threat-indicator threat-high">HIGH RISK</span>';
+                    break;
+                case 'malicious':
+                    message = "This 'fast download' button is designed to trick users into downloading malware!";
+                    filename = "FastDownloader_Setup.exe";
+                    filesize = "2.3 MB";
+                    filetype = "Executable (.exe)";
+                    threatLevel = '<span class="threat-indicator threat-high">CRITICAL RISK</span>';
+                    break;
+                case 'ad':
+                    message = "This advertisement is a classic malware distribution method!";
+                    filename = "FlashPlayer_Update.exe";
+                    filesize = "1.1 MB";
+                    filetype = "Executable (.exe)";
+                    threatLevel = '<span class="threat-indicator threat-high">HIGH RISK</span>';
+                    break;
+            }
+
+            messageSpan.textContent = message;
+            filenameSpan.textContent = filename;
+            filesizeSpan.textContent = filesize;
+            filetypeSpan.textContent = filetype;
+            threatLevelSpan.innerHTML = threatLevel;
+
+            warningDiv.style.display = 'block';
+            warningDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function simulateScan() {
+            // Hide all scan results first
+            document.querySelectorAll('.scan-result').forEach(result => {
+                result.style.display = 'none';
+            });
+
+            // Simulate scanning delay
+            setTimeout(() => {
+                // Randomly show clean or infected result for demonstration
+                const isInfected = Math.random() > 0.7; // 30% chance of showing infected
+                const resultId = isInfected ? 'scan-infected' : 'scan-clean';
+                document.getElementById(resultId).style.display = 'block';
+            }, 2000);
+        }
+
+        function showScanResult(type) {
+            document.querySelectorAll('.scan-result').forEach(result => {
+                result.style.display = 'none';
+            });
+            document.getElementById(`scan-${type}`).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
