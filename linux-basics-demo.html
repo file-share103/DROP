@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Basics - Ayushman's- Cyber Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .demo-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #161b22;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #30363d;
+        }
+
+        .section-divider {
+            border-top: 1px solid #30363d;
+            margin: 2.5rem 0;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 2px solid #30363d;
+            border-radius: 10px;
+            background: #0d1117;
+        }
+
+        .content-section h3 {
+            color: #2ea043;
+            margin-bottom: 1rem;
+        }
+
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .command-table th, 
+        .command-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .command-table th {
+            background: #21262d;
+            color: #f0f6fc;
+        }
+
+        .command-table tr:nth-child(even) {
+            background: #161b22;
+        }
+
+        .command-table tr:hover {
+            background: #21262d;
+        }
+
+        .command-code {
+            font-family: 'Courier New', monospace;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .section-icon {
+            color: #2ea043;
+            margin-right: 10px;
+        }
+
+        .terminal-simulation {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            color: #e9ecef;
+            position: relative;
+        }
+
+        .terminal-header {
+            background: #21262d;
+            padding: 0.5rem 1rem;
+            border-radius: 8px 8px 0 0;
+            margin: -1rem -1rem 1rem -1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            color: #e9ecef;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-close { background: #ff5f56; }
+        .terminal-minimize { background: #ffbd2e; }
+        .terminal-maximize { background: #27ca3f; }
+
+        .terminal-prompt {
+            color: #2ea043;
+            margin-right: 10px;
+        }
+
+        .terminal-command {
+            color: #e9ecef;
+        }
+
+        .terminal-output {
+            color: #8b949e;
+            margin: 0.5rem 0 1rem 0;
+            padding-left: 1rem;
+            border-left: 2px solid #30363d;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .copy-button:hover {
+            background: #2980b9;
+        }
+
+        .interactive-terminal {
+            margin-top: 2rem;
+        }
+
+        .terminal-input {
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #e9ecef;
+            padding: 0.8rem;
+            font-family: 'Courier New', monospace;
+            margin-top: 1rem;
+            border-radius: 5px;
+        }
+
+        .terminal-input:focus {
+            outline: none;
+            border-color: #2ea043;
+        }
+
+        .practice-section {
+            background: rgba(46, 160, 67, 0.1);
+            border: 1px solid #2ea043;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .practice-section h3 {
+            color: #2ea043;
+            margin-bottom: 1rem;
+        }
+
+        .practice-task {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .practice-task:before {
+            content: "→";
+            color: #2ea043;
+            position: absolute;
+            left: 0;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .resource-link {
+            background: rgba(46, 160, 67, 0.1);
+            color: #2ea043;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.3s ease;
+            border: 1px solid rgba(46, 160, 67, 0.3);
+        }
+
+        .resource-link:hover {
+            background: rgba(46, 160, 67, 0.2);
+        }
+
+        .step-number {
+            background: #2ea043;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ayushman's- Cyber Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Linux Basics</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="demo-container">
+                <h1><i class="fab fa-linux"></i> Linux Basics: Essential Commands</h1>
+
+                <div class="alert alert-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Educational Note:</strong>
+                    This guide provides essential Linux commands for beginners, especially useful for cybersecurity and ethical hacking tasks in Kali Linux.
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">1</span> Introduction to Linux</h2>
+                    <p>Linux is a powerful, open-source operating system widely used in cybersecurity, server environments, and ethical hacking. Kali Linux, a specialized distribution, comes pre-loaded with hundreds of security tools for penetration testing and digital forensics.</p>
+                    
+                    <p>Understanding basic Linux commands is essential for:</p>
+                    <ul>
+                        <li>Navigating the file system efficiently</li>
+                        <li>Managing files and directories</li>
+                        <li>Monitoring system resources</li>
+                        <li>Networking and security operations</li>
+                        <li>Running security tools and scripts</li>
+                    </ul>
+
+                    <div class="terminal-simulation">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">Kali Linux Terminal</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">whoami</span>
+                            <div class="terminal-output">kali</div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">uname -a</span>
+                            <div class="terminal-output">Linux kali 5.10.0-kali9-amd64 #1 SMP Debian 5.10.46-4kali1 (2021-08-09) x86_64 GNU/Linux</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">2</span> File & Directory Navigation</h2>
+                    <p>Navigating the Linux file system is one of the most fundamental skills. Here are the essential commands:</p>
+
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="command-code">pwd</code></td>
+                                <td>Show current directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">ls</code></td>
+                                <td>List directory contents</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">cd &lt;dir&gt;</code></td>
+                                <td>Change directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">cd ..</code></td>
+                                <td>Go up one directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">mkdir &lt;dir&gt;</code></td>
+                                <td>Create new directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">rmdir &lt;dir&gt;</code></td>
+                                <td>Remove empty directory</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">rm -r &lt;dir/file&gt;</code></td>
+                                <td>Delete file/folder</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">touch &lt;file&gt;</code></td>
+                                <td>Create empty file</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="terminal-simulation">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">File Navigation Example</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">pwd</span>
+                            <div class="terminal-output">/home/kali</div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">mkdir test_dir</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">cd test_dir</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~/test_dir$</span>
+                            <span class="terminal-command">touch sample.txt</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~/test_dir$</span>
+                            <span class="terminal-command">ls</span>
+                            <div class="terminal-output">sample.txt</div>
+                            
+                            <span class="terminal-prompt">kali@kali:~/test_dir$</span>
+                            <span class="terminal-command">cd ..</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">rm -r test_dir</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">3</span> File Operations</h2>
+                    <p>Working with files is a common task in Linux. Here are the key commands:</p>
+
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="command-code">cp file1 file2</code></td>
+                                <td>Copy file</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">cp -r dir1 dir2</code></td>
+                                <td>Copy directory recursively</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">mv old new</code></td>
+                                <td>Rename or move file/folder</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">cat file.txt</code></td>
+                                <td>View file content</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">less file.txt</code></td>
+                                <td>View with scroll (press <code>q</code> to quit)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="terminal-simulation">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">File Operations Example</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">echo "This is a test file" > test.txt</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">cat test.txt</span>
+                            <div class="terminal-output">This is a test file</div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">cp test.txt backup.txt</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ls</span>
+                            <div class="terminal-output">backup.txt  test.txt</div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">mv test.txt renamed.txt</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ls</span>
+                            <div class="terminal-output">backup.txt  renamed.txt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">4</span> System Info & Management</h2>
+                    <p>Monitoring your system is crucial for performance and security. These commands help you gather system information:</p>
+
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="command-code">whoami</code></td>
+                                <td>Show current user</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">id</code></td>
+                                <td>Show UID/GID</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">uname -a</code></td>
+                                <td>Kernel and system info</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">top</code></td>
+                                <td>View running processes</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">htop</code></td>
+                                <td>Enhanced <code>top</code> (press <code>q</code> to quit)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">df -h</code></td>
+                                <td>Show disk usage</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">free -h</code></td>
+                                <td>Show memory usage</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">uptime</code></td>
+                                <td>System running time</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="terminal-simulation">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">System Info Example</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">free -h</span>
+                            <div class="terminal-output">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;used&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;free&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shared&nbsp;&nbsp;&nbsp;buff/cache&nbsp;&nbsp;&nbsp;available<br>
+                                Mem:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.8Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;420Mi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.5Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.0Gi<br>
+                                Swap:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.0Gi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.0Gi
+                            </div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">df -h</span>
+                            <div class="terminal-output">
+                                Filesystem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size&nbsp;&nbsp;Used&nbsp;Avail&nbsp;Use%&nbsp;Mounted on<br>
+                                /dev/sda1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50G&nbsp;&nbsp;&nbsp;15G&nbsp;&nbsp;&nbsp;33G&nbsp;&nbsp;32%&nbsp;&nbsp;/<br>
+                                tmpfs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.6G&nbsp;&nbsp;&nbsp;0B&nbsp;&nbsp;1.6G&nbsp;&nbsp;&nbsp;0%&nbsp;&nbsp;/dev/shm<br>
+                                tmpfs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;631M&nbsp;&nbsp;17M&nbsp;&nbsp;614M&nbsp;&nbsp;&nbsp;3%&nbsp;&nbsp;/run
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">5</span> Networking Tools</h2>
+                    <p>Networking commands are particularly important for cybersecurity and penetration testing:</p>
+
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="command-code">ifconfig</code></td>
+                                <td>Show network interfaces (use <code>ip a</code> on newer systems)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">ip a</code></td>
+                                <td>Show IP address & interface info</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">ping google.com</code></td>
+                                <td>Check network connectivity</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">traceroute google.com</code></td>
+                                <td>Trace path to a host</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">netstat -tuln</code></td>
+                                <td>Show open ports</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">nmap &lt;IP&gt;</code></td>
+                                <td>Network scan (requires <code>nmap</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">curl &lt;url&gt;</code></td>
+                                <td>Get web content from terminal</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">wget &lt;url&gt;</code></td>
+                                <td>Download file from web</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="terminal-simulation">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">Networking Example</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ip a</span>
+                            <div class="terminal-output">
+                                1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;inet 127.0.0.1/8 scope host lo<br>
+                                2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;inet 192.168.1.105/24 brd 192.168.1.255 scope global dynamic noprefixroute eth0
+                            </div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ping -c 3 google.com</span>
+                            <div class="terminal-output">
+                                PING google.com (142.250.190.78) 56(84) bytes of data.<br>
+                                64 bytes from sfo03s07-in-f14.1e100.net (142.250.190.78): icmp_seq=1 ttl=119 time=15.6 ms<br>
+                                64 bytes from sfo03s07-in-f14.1e100.net (142.250.190.78): icmp_seq=2 ttl=119 time=14.9 ms<br>
+                                64 bytes from sfo03s07-in-f14.1e100.net (142.250.190.78): icmp_seq=3 ttl=119 time=15.2 ms<br>
+                                <br>
+                                --- google.com ping statistics ---<br>
+                                3 packets transmitted, 3 received, 0% packet loss, time 2003ms<br>
+                                rtt min/avg/max/mdev = 14.921/15.245/15.632/0.294 ms
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">6</span> User & Permission Commands</h2>
+                    <p>Managing users and permissions is crucial for system security:</p>
+
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="command-code">sudo &lt;cmd&gt;</code></td>
+                                <td>Run command as superuser</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">adduser &lt;name&gt;</code></td>
+                                <td>Add a new user</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">passwd</code></td>
+                                <td>Change password</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">chmod +x script.sh</code></td>
+                                <td>Make file executable</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">chown user:group file</code></td>
+                                <td>Change file owner</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="terminal-simulation">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">Permissions Example</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">echo '#!/bin/bash' > script.sh</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">echo 'echo "Hello, World!"' >> script.sh</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ls -l script.sh</span>
+                            <div class="terminal-output">-rw-r--r-- 1 kali kali 31 Aug 15 14:23 script.sh</div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">chmod +x script.sh</span>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ls -l script.sh</span>
+                            <div class="terminal-output">-rwxr-xr-x 1 kali kali 31 Aug 15 14:23 script.sh</div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">./script.sh</span>
+                            <div class="terminal-output">Hello, World!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">7</span> Hacking Tools Usage</h2>
+                    <p>Kali Linux comes pre-installed with many security tools. Here are some basic commands to get started:</p>
+
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="command-code">nmap &lt;target&gt;</code></td>
+                                <td>Scan target IP/network</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">airmon-ng</code></td>
+                                <td>Manage Wi-Fi monitor mode</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">airdump-ng</code></td>
+                                <td>Capture Wi-Fi traffic</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">hydra</code></td>
+                                <td>Brute-force login tool</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">msfconsole</code></td>
+                                <td>Start Metasploit Framework</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">sqlmap -u &lt;url&gt; --dbs</code></td>
+                                <td>Auto SQL injection test</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-warning">
+                        <strong><i class="fas fa-exclamation-triangle"></i> Important:</strong>
+                        Only use these tools on systems you own or have explicit permission to test. Unauthorized scanning or testing is illegal.
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">8</span> Package Management</h2>
+                    <p>Kali Linux uses APT (Advanced Package Tool) for package management:</p>
+
+                    <table class="command-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code class="command-code">sudo apt update</code></td>
+                                <td>Update package list</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">sudo apt upgrade</code></td>
+                                <td>Upgrade packages</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">sudo apt install &lt;pkg&gt;</code></td>
+                                <td>Install new package</td>
+                            </tr>
+                            <tr>
+                                <td><code class="command-code">sudo apt remove &lt;pkg&gt;</code></td>
+                                <td>Remove package</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="terminal-simulation">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">Package Management Example</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">sudo apt update</span>
+                            <div class="terminal-output">
+                                Hit:1 http://kali.download/kali kali-rolling InRelease<br>
+                                Reading package lists... Done<br>
+                                Building dependency tree... Done<br>
+                                All packages are up to date.
+                            </div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">sudo apt install -y nmap</span>
+                            <div class="terminal-output">
+                                Reading package lists... Done<br>
+                                Building dependency tree... Done<br>
+                                nmap is already the newest version (7.92+dfsg1-2).<br>
+                                0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">9</span> Example Pentest Setup</h2>
+                    <p>Here's a basic sequence of commands you might use when starting a penetration test:</p>
+
+                    <div class="terminal-simulation">
+                        <button class="copy-button" onclick="copyPentestCommands()">Copy Commands</button>
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <div class="terminal-button terminal-close"></div>
+                                <div class="terminal-button terminal-minimize"></div>
+                                <div class="terminal-button terminal-maximize"></div>
+                            </div>
+                            <div class="terminal-title">Basic Pentest Workflow</div>
+                        </div>
+                        <div>
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">sudo apt update</span>
+                            <div class="terminal-output">
+                                [Package lists updated]
+                            </div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ifconfig</span>
+                            <div class="terminal-output">
+                                [Network interfaces displayed]
+                            </div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">ping -c 3 192.168.1.1</span>
+                            <div class="terminal-output">
+                                [Ping results to confirm connectivity]
+                            </div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">nmap -sV 192.168.1.1</span>
+                            <div class="terminal-output">
+                                [Service version detection scan results]
+                            </div>
+                            
+                            <span class="terminal-prompt">kali@kali:~$</span>
+                            <span class="terminal-command">msfconsole</span>
+                            <div class="terminal-output">
+                                [Metasploit Framework console starts]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="practice-section">
+                    <h3><i class="fas fa-laptop-code"></i> Practice Exercises</h3>
+                    <p>Try these exercises to reinforce your Linux command skills:</p>
+                    
+                    <div class="practice-task">Create a directory called "security_test" and navigate into it</div>
+                    <div class="practice-task">Create three empty files: recon.txt, scan.txt, and report.txt</div>
+                    <div class="practice-task">List all files in the directory with detailed information (permissions, size, etc.)</div>
+                    <div class="practice-task">Add some text to recon.txt using echo and redirection</div>
+                    <div class="practice-task">Make a copy of recon.txt called recon_backup.txt</div>
+                    <div class="practice-task">Check your system's memory and disk usage</div>
+                    <div class="practice-task">Create a simple shell script that prints "Security scan complete"</div>
+                    <div class="practice-task">Make the script executable and run it</div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-graduation-cap"></i> Key Takeaways:</strong>
+                    <ul>
+                        <li>Linux command line proficiency is essential for cybersecurity professionals</li>
+                        <li>Start with basic navigation and file operations before moving to more complex tools</li>
+                        <li>Practice regularly to build muscle memory for common commands</li>
+                        <li>Understanding permissions and user management is crucial for security</li>
+                        <li>Kali Linux provides specialized tools that build on these fundamental commands</li>
+                    </ul>
+                </div>
+
+                <div class="resource-links">
+                    <a href="#" class="resource-link"><i class="fas fa-book"></i> Linux Command Reference</a>
+                    <a href="#" class="resource-link"><i class="fas fa-graduation-cap"></i> Kali Linux Documentation</a>
+                    <a href="#" class="resource-link"><i class="fas fa-terminal"></i> Interactive Terminal Tutorial</a>
+                    <a href="#" class="resource-link"><i class="fas fa-shield-alt"></i> Security Tools Guide</a>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="index.html" class="demo-btn">← Back to Main Lab</a>
+                    <a href="ethical-hacking-demo.html" class="demo-btn">Next: Ethical Hacking Basics →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ayushman's- Cyber Education Lab. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to copy pentest commands
+        function copyPentestCommands() {
+            const commands = `sudo apt update
+ifconfig
+ping -c 3 192.168.1.1
+nmap -sV 192.168.1.1
+msfconsole`;
+            
+            navigator.clipboard.writeText(commands).then(() => {
+                alert('Commands copied to clipboard!');
+            });
+        }
+
+        // Interactive terminal simulation
+        document.addEventListener('DOMContentLoaded', function() {
+            const terminalInput = document.querySelector('.terminal-input');
+            if (terminalInput) {
+                terminalInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const command = this.value.trim();
+                        if (command) {
+                            // Simple command simulation
+                            let output = '';
+                            if (command === 'ls') {
+                                output = 'documents  downloads  pictures  Desktop  script.sh';
+                            } else if (command === 'pwd') {
+                                output = '/home/kali';
+                            } else if (command === 'whoami') {
+                                output = 'kali';
+                            } else if (command.startsWith('echo')) {
+                                output = command.substring(5);
+                            } else if (command === 'date') {
+                                output = new Date().toString();
+                            } else {
+                                output = `Command not found: ${command}`;
+                            }
+                            
+                            // Add command to terminal
+                            const terminalDiv = document.querySelector('.interactive-terminal');
+                            terminalDiv.innerHTML += `<div><span class="terminal-prompt">kali@kali:~$</span> <span class="terminal-command">${command}</span></div>`;
+                            terminalDiv.innerHTML += `<div class="terminal-output">${output}</div>`;
+                            
+                            // Clear input
+                            this.value = '';
+                            
+                            // Scroll to bottom
+                            terminalDiv.scrollTop = terminalDiv.scrollHeight;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

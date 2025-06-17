@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Demo - Ayushman's- Cyber Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .phishing-example {
+            border: 2px solid #dc3545;
+            border-radius: 10px;
+            margin: 2rem 0;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .fake-browser {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .browser-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .browser-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .close { background: #ff5f56; }
+        .minimize { background: #ffbd2e; }
+        .maximize { background: #27ca3f; }
+
+        .address-bar {
+            flex: 1;
+            background: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .suspicious-url {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .fake-page {
+            padding: 2rem;
+            background: white;
+            color: #000000;
+        }
+
+        .fake-login {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #f8f9fa;
+            color: #000000;
+        }
+
+        .fake-input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #000000;
+            background: white;
+        }
+
+        .fake-button {
+            width: 100%;
+            padding: 1rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .fake-button:hover {
+            background: #0056b3;
+        }
+
+        .red-flags {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .red-flags h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .red-flags ul {
+            color: #856404;
+            margin-left: 1rem;
+        }
+
+        .analysis-section {
+            background: rgba(23, 162, 184, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 1px solid #17a2b8;
+            color: #e9ecef;
+        }
+
+        .email-example {
+            background: white;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: Arial, sans-serif;
+            color: #000000;
+        }
+
+        .email-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .email-from {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .urgency-text {
+            color: #dc3545;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .legitimate-indicators {
+            background: rgba(46, 160, 67, 0.1);
+            border-left: 4px solid #2ea043;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ayushman's- Cyber Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Phishing Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="demo-container">
+                <h1><i class="fas fa-fishing-hook"></i> Phishing Attack Demonstration</h1>
+
+                <div class="alert alert-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Educational Warning:</strong>
+                    These are simulated phishing examples for educational purposes. Never enter real credentials in suspicious websites.
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">1</span>What is Phishing?</h2>
+                    <p>Phishing is a social engineering attack where attackers impersonate legitimate organizations to steal sensitive information like passwords, credit card numbers, or personal data.</p>
+
+                    <div class="analysis-section">
+                        <h3>Common Phishing Targets:</h3>
+                        <ul>
+                            <li>Banking and financial institutions</li>
+                            <li>Social media platforms</li>
+                            <li>Email providers (Gmail, Outlook)</li>
+                            <li>E-commerce sites (Amazon, PayPal)</li>
+                            <li>Government agencies</li>
+                            <li>Workplace systems and IT departments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">2</span>Fake Website Example</h2>
+                    <p>Below is a simulated phishing website that mimics a popular service:</p>
+
+                    <div class="phishing-example">
+                        <div class="fake-browser">
+                            <div class="browser-buttons">
+                                <div class="browser-button close"></div>
+                                <div class="browser-button minimize"></div>
+                                <div class="browser-button maximize"></div>
+                            </div>
+                            <div class="address-bar">
+                                <span class="suspicious-url">https://arnazon-security-verification.com/login</span>
+                                <i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-left: 10px;"></i>
+                            </div>
+                        </div>
+                        <div class="fake-page">
+                            <div style="text-align: center; margin-bottom: 2rem;">
+                                <h2 style="color: #ff9900;">amazon</h2>
+                                <p style="color: #dc3545; font-weight: bold;">URGENT: Account Security Verification Required</p>
+                            </div>
+
+                            <div class="fake-login">
+                                <h3>Verify Your Account</h3>
+                                <p>We've detected suspicious activity on your account. Please verify your credentials immediately to prevent account suspension.</p>
+
+                                <input type="email" class="fake-input" placeholder="Email address" readonly value="Click to reveal red flags below">
+                                <input type="password" class="fake-input" placeholder="Password" readonly>
+                                <button class="fake-button" onclick="showPhishingAlert()">Verify Account</button>
+
+                                <p style="font-size: 0.8rem; color: #666; margin-top: 1rem;">
+                                    Your account will be suspended in 24 hours if not verified.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="red-flags">
+                        <h4><i class="fas fa-flag"></i> Red Flags in This Example:</h4>
+                        <ul>
+                            <li><strong>Suspicious URL:</strong> "arnazon" instead of "amazon"</li>
+                            <li><strong>Urgency tactics:</strong> "URGENT" and time pressure</li>
+                            <li><strong>Generic greeting:</strong> No personalized information</li>
+                            <li><strong>Threatening language:</strong> Account suspension threats</li>
+                            <li><strong>Poor design:</strong> Inconsistent branding and layout</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">3</span>Phishing Email Example</h2>
+                    <p>Here's a typical phishing email that might lead to the fake website above:</p>
+
+                    <div class="email-example">
+                        <div class="email-header">
+                            <strong>From:</strong> <span class="email-from">security@arnazon-alerts.com</span><br>
+                            <strong>Subject:</strong> <span class="urgency-text">URGENT: Suspicious Activity Detected on Your Account</span><br>
+                            <strong>Date:</strong> Today, 3:47 PM
+                        </div>
+
+                        <div class="email-body">
+                            <p>Dear Valued Customer,</p>
+
+                            <p>We have detected <strong>unusual login attempts</strong> from an unrecognized device trying to access your Amazon account from the following location:</p>
+
+                            <p style="background: #f8f9fa; padding: 1rem; border-left: 3px solid #dc3545;">
+                                <strong>Location:</strong> Moscow, Russia<br>
+                                <strong>IP Address:</strong> 185.220.101.42<br>
+                                <strong>Time:</strong> Today at 3:32 PM
+                            </p>
+
+                            <p class="urgency-text">Your account will be temporarily suspended in 24 hours for security reasons.</p>
+
+                            <p>To prevent this suspension and secure your account, please verify your identity immediately by clicking the link below:</p>
+
+                            <p style="text-align: center; margin: 2rem 0;">
+                                <a href="#" onclick="showPhishingAlert()" style="background: #ff9900; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                                    VERIFY ACCOUNT NOW
+                                </a>
+                            </p>
+
+                            <p style="font-size: 0.8rem; color: #666;">
+                                If you did not attempt to log in, please ignore this email. This is an automated security message.
+                            </p>
+
+                            <p>Thank you,<br>Amazon Security Team</p>
+                        </div>
+                    </div>
+
+                    <div class="red-flags">
+                        <h4><i class="fas fa-flag"></i> Email Red Flags:</h4>
+                        <ul>
+                            <li><strong>Sender domain:</strong> Not from official amazon.com</li>
+                            <li><strong>Generic greeting:</strong> "Dear Valued Customer"</li>
+                            <li><strong>Urgency and fear:</strong> Account suspension threats</li>
+                            <li><strong>Suspicious details:</strong> Specific but fake IP and location</li>
+                            <li><strong>Call to action:</strong> Immediate verification required</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">4</span>Advanced Phishing Techniques</h2>
+
+                    <h3>Spear Phishing</h3>
+                    <p>Targeted attacks using personal information:</p>
+                    <div class="email-example">
+                        <div class="email-header">
+                            <strong>From:</strong> hr@yourcompany.com (spoofed)<br>
+                            <strong>Subject:</strong> Updated Employee Handbook - Action Required
+                        </div>
+                        <p>Hi [Your Name],</p>
+                        <p>As discussed in yesterday's team meeting, please review the updated employee handbook and confirm receipt by clicking the link below...</p>
+                    </div>
+
+                    <h3>Whaling (CEO Fraud)</h3>
+                    <p>Targeting high-value individuals:</p>
+                    <div class="email-example">
+                        <div class="email-header">
+                            <strong>From:</strong> CEO@company.com (spoofed)<br>
+                            <strong>Subject:</strong> Urgent: Confidential Acquisition Details
+                        </div>
+                        <p>I need you to handle a confidential wire transfer immediately. Please call me on my mobile for details...</p>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">5</span>How to Identify Legitimate Communications</h2>
+
+                    <div class="legitimate-indicators">
+                        <h4><i class="fas fa-check-circle"></i> Legitimate Indicators:</h4>
+                        <ul>
+                            <li><strong>Official domains:</strong> Emails from verified company domains</li>
+                            <li><strong>Personalization:</strong> Uses your actual name and account details</li>
+                            <li><strong>No urgency:</strong> Legitimate companies rarely create artificial urgency</li>
+                            <li><strong>Contact options:</strong> Multiple ways to verify (phone, official website)</li>
+                            <li><strong>Consistent branding:</strong> Professional design matching official materials</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">6</span>Prevention and Response</h2>
+
+                    <div class="prevention-tip">
+                        <h3><i class="fas fa-shield-alt"></i> Protection Strategies:</h3>
+                        <ul>
+                            <li><strong>Verify independently:</strong> Contact the organization through official channels</li>
+                            <li><strong>Check URLs carefully:</strong> Look for misspellings and suspicious domains</li>
+                            <li><strong>Use bookmarks:</strong> Access important sites through saved bookmarks</li>
+                            <li><strong>Enable 2FA:</strong> Two-factor authentication adds security layers</li>
+                            <li><strong>Keep software updated:</strong> Use updated browsers with security features</li>
+                            <li><strong>Report suspicious emails:</strong> Forward to your IT department or the impersonated organization</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-danger">
+                        <strong>If You've Been Phished:</strong>
+                        <ol>
+                            <li>Change passwords immediately</li>
+                            <li>Contact your bank/credit card companies</li>
+                            <li>Monitor accounts for suspicious activity</li>
+                            <li>Report the incident to relevant authorities</li>
+                            <li>Run antivirus scans on your devices</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-graduation-cap"></i> Key Takeaways:</strong>
+                    <ul>
+                        <li>Always verify suspicious communications through independent channels</li>
+                        <li>Be skeptical of urgent requests for sensitive information</li>
+                        <li>Check URLs and email addresses carefully</li>
+                        <li>When in doubt, don't click - contact the organization directly</li>
+                        <li>Educate others about phishing tactics</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="pastejacking-demo.html" class="demo-btn">← Previous: Paste Jacking</a>
+                    <a href="index.html" class="demo-btn">Back to Main Lab</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ayushman's- Cyber Education Lab. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPhishingAlert() {
+            alert('🚨 PHISHING ATTEMPT DETECTED! 🚨\n\nThis was a simulated phishing attack for educational purposes.\n\nIn a real scenario, clicking this would have:\n• Stolen your credentials\n• Installed malware\n• Compromised your account\n\nAlways verify suspicious requests independently!');
+        }
+
+        // Prevent actual form submission
+        document.querySelectorAll('.fake-input, .fake-button').forEach(element => {
+            element.addEventListener('click', function(e) {
+                if (this.classList.contains('fake-input')) {
+                    showPhishingAlert();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

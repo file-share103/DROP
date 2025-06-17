@@ -1,0 +1,252 @@
+Lesson 01: Introduction to Footprinting
+Lesson Objectives
+By the end of this lesson, students will be able to:
+Understand the concept and importance of footprinting in ethical hacking.
+Differentiate between passive and active footprinting.
+Identify various footprinting techniques and tools.
+Perform basic footprinting tasks ethically.
+Recognize legal and ethical boundaries in information gathering.
+
+1. What is Footprinting?
+ 
+●	Definition:
+o	Footprinting is the process of gathering information about a target system or network to identify potential vulnerabilities.
+●	Objective:
+o	To collect data for further penetration testing or vulnerability analysis.
+●	Analogy:
+o	Similar to gathering blueprints before breaking into a building.
+
+2. Why is Footprinting Important?
+●	Preparation for Attacks:
+o	Attackers gather as much information as possible before attempting to exploit a system.
+●	Benefits for Ethical Hackers:
+o	Helps in identifying system configurations, network architectures, and security measures.
+●	Business Context:
+o	Understanding the security posture and minimizing potential risks.
+
+3. Types of Footprinting
+ 
+3.1 Passive Footprinting:
+●	Definition:
+o	Gathering information without directly interacting with the target.
+●	Techniques:
+o	Social media profiling
+o	WHOIS and DNS lookups
+o	Publicly available data
+●	Tools:
+o	Google Dorking
+o	Maltego
+●	Demo:
+o	Using Google Dorks to find exposed files:
+o	site:example.com filetype:pdf
+3.2 Active Footprinting:
+●	Definition:
+o	Directly interacting with the target to gather information.
+●	Techniques:
+o	Port scanning
+o	Ping sweeps
+o	Traceroute
+●	Tools:
+o	Nmap
+o	Netcat
+●	Demo:
+o	Scanning open ports on a target using Nmap:
+o	nmap -sS -p 1-1000 target.com
+
+4. Footprinting Techniques
+ 
+4.1 Network Footprinting:
+●	Purpose:
+o	Discovering the network architecture and topology.
+●	Methods:
+o	IP address range discovery
+o	Subdomain enumeration
+4.2 DNS Footprinting:
+●	Purpose:
+o	Extracting DNS information to map the domain’s structure.
+●	Methods:
+o	Zone transfers
+o	Reverse DNS lookup
+4.3 Website Footprinting:
+●	Purpose:
+o	Collecting information from the target website.
+●	Methods:
+o	Analyzing meta tags
+o	Extracting comments from HTML source
+
+5. Using OSINT for Footprinting
+●	What is OSINT?
+o	Open Source Intelligence: Gathering publicly available data from online sources.
+●	Sources:
+o	Social media platforms (LinkedIn, Twitter)
+o	Public databases (Shodan, Censys)
+o	News articles and public reports
+
+6. Hands-On Activity:
+
+Activity 1: Perform passive footprinting using Google Dorking to find open directories.
+Activity 2: Use Nmap to scan for open ports on a local network.
+Activity 3: Enumerate DNS records for a domain using the nslookup tool.
+Activity 4: Extract metadata from images using ExifTool.
+Activity 5: Use Shodan to find exposed IoT devices.
+
+7. Real-World Scenarios
+●	Case Study 1:
+o	How an attacker used WHOIS data to launch a phishing attack.
+●	Case Study 2:
+o	Passive footprinting leading to the discovery of unsecured databases.
+●	Case Study 3:
+o	Combining OSINT data for targeted social engineering.
+
+9. Practical Challenges and Limitations
+●	Accuracy Issues:
+o	Public data might be outdated or incorrect.
+●	Detection Risk:
+o	Active footprinting might trigger security alerts.
+●	Data Overload:
+o	Managing and analyzing large volumes of gathered data.
+●	Anti-Footprinting Measures:
+o	Use of firewalls and intrusion detection systems to block reconnaissance.
+
+10. Summary & Key Takeaways
+
+Footprinting is a critical first step in ethical hacking.
+Understanding passive and active techniques is essential for gathering comprehensive data.
+OSINT plays a significant role in modern footprinting.
+Always maintain ethical standards and acquire proper authorization.
+Being aware of the risks and limitations ensures responsible and effective information gathering.
+
+
+
+02- 
+Lesson 02: Tools for Footprinting (WHOIS, Wappalyzer, Wayback Machine)
+ 
+Lesson Objectives
+By the end of this lesson, you will be able to:
+●	Understand what footprinting tools do.
+
+●	Use simple tools to gather information about websites.
+
+●	Know the pros and cons of each tool.
+
+●	Use the info to help with security testing (ethically!).
+
+1. What Are Footprinting Tools?
+Footprinting tools help you gather information about a website, system, or network — before doing any deeper security checks.
+Why Use Them?
+●	Saves time — no need to dig manually.
+
+●	Gets useful data fast and safely.
+
+●	Can be passive (quiet) or active (more direct).
+
+
+1.1 WHOIS Lookup
+ 
+What It Does:
+Tells you who owns a domain and when it was registered.
+How to Use:
+whois example.com
+
+Or go to sites like:
+ 🌐 whois.domaintools.com
+What You Get:
+●	Domain owner (if not hidden)
+
+●	When the domain was created
+
+●	Expiry date
+
+●	Registrar info
+
+Good For:
+●	Finding out who owns a suspicious or target website.
+
+●	Checking if a domain is legit.
+
+Limitation:
+●	Info may be hidden by privacy protection.
+
+1.2 Wappalyzer
+ 
+What It Does:
+Shows what technology a website is built with.
+How to Use:
+●	Install the Wappalyzer browser extension (Chrome/Firefox).
+
+●	Visit any site, click the icon.
+
+What You See:
+●	CMS (like WordPress)
+
+●	Server type (Apache, Nginx)
+
+●	JavaScript libraries
+
+●	Analytics tools
+
+●	E-commerce platforms
+
+Good For:
+●	Seeing if a site uses outdated or risky software.
+
+●	Learning what tools competitors use.
+
+Limitation:
+●	Doesn’t always catch everything, especially if hidden.
+
+1.3 Wayback Machine
+ 
+What It Does:
+Lets you see old versions of websites.
+How to Use:
+Go to:
+ 🌐 archive.org/web
+ Type a URL and choose a past date.
+What You See:
+●	Older content
+
+●	Deleted pages
+
+●	Previous site designs
+
+●	Exposed info that may now be hidden
+
+Good For:
+●	Finding removed or sensitive data
+
+●	Checking changes in content or branding
+
+Limitation:
+●	Not every site or page is saved
+
+●	Some content (like JavaScript) may not load properly
+
+2. Hands-On Practice
+Try these simple activities:
+1.	Use WHOIS to look up your school or a known domain.
+
+2.	Use Wappalyzer to check the tech behind your favorite website.
+
+3.	Look up an old version of a website using the Wayback Machine.
+
+3. Be Ethical!
+●	Ask First: Don’t scan or test websites you don’t own or have permission to check.
+
+●	Stay Legal: Breaking rules can lead to trouble — even jail time.
+
+●	Be Respectful: Never use info to harm others or invade privacy.
+
+4. Key Takeaways
+●	WHOIS = Info about who owns a domain.
+
+●	Wappalyzer = See what tech a site uses.
+
+●	Wayback Machine = View old versions of a site.
+
+●	These tools are safe and passive — great for starting your recon.
+
+●	Use them responsibly and legally.
+
+
+

